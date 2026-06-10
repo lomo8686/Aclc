@@ -1,20 +1,12 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+<img width="1200" height="475" alt="GHBanner"https://sachgiaokhoa.vn/pub/media/catalog/product/cache/3bd4b739bad1f096e12e3a82b40e551a/s/g/sgk-l5-gd-900.jpg" />
 </div>
 
-# Run and deploy your AI Studio app
+# Bài 19: Vi khuẩn có lợi trong chế biến thực phẩm
 
-This contains everything you need to run your app locally.
+Bài học mang lại cho học sinh trải nghiệm về cách làm sữa chua và lý thuyết về vi khuẩn lactic
 
-View your app in AI Studio: https://ai.studio/apps/376a1935-857f-4862-bdb0-66006b610396
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
