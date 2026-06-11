@@ -1,8 +1,7 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useRef } from 'react';
 import { ChevronRight, Share2, Award, Lightbulb, Maximize, Minimize } from 'lucide-react';
 import { QUIZ_QUESTIONS } from '../../../data';
-import '@google/model-viewer';
 
 const OPTIONS = [
   'lên men',
@@ -21,35 +20,38 @@ const CORRECT_ANSWERS: Record<number, string> = {
 };
 
 export default function ActivityThree() {
+  useEffect(() => {
+    import('@google/model-viewer').catch(console.error);
+  }, []);
   /* ── Fullscreen state for 3D model ── */
   const [isModelFullscreen, setIsModelFullscreen] = useState(false);
   const modelContainerRef = useRef<HTMLDivElement>(null);
 
   /* ── Fill in the blanks state ── */
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>(() => {
-    const saved = localStorage.getItem('lactic_quiz_answers_new');
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_answers_new') : null) : null);
     return saved ? JSON.parse(saved) : { 1: '', 2: '', 3: '', 4: '', 5: '' };
   });
 
   const [activeBlank, setActiveBlank] = useState<number | null>(1);
 
   const [quizSubmitted, setQuizSubmitted] = useState(() => {
-    return localStorage.getItem('lactic_quiz_submitted_new') === 'true';
+    return (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_submitted_new') : null) : null) === 'true';
   });
 
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>(() => {
-    const saved = localStorage.getItem('lactic_quiz_results_new');
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_results_new') : null) : null);
     return saved ? JSON.parse(saved) : {};
   });
 
   const [scoreCount, setScoreCount] = useState(() => {
-    const saved = localStorage.getItem('lactic_quiz_score_new');
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_score_new') : null) : null);
     return saved ? Number(saved) : 0;
   });
 
-  useEffect(() => {
+  useEffect(() => { import('@google/model-viewer').catch(console.error); 
     if (quizSubmitted && scoreCount === 5) {
-      localStorage.setItem('lactic_progress_hd2', 'true');
+      fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd2' }) }).catch(console.error);
     }
   }, [quizSubmitted, scoreCount]);
 
@@ -101,7 +103,7 @@ export default function ActivityThree() {
 
     updated[targetBlank] = option;
     setSelectedAnswers(updated);
-    localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
 
     // Auto-advance
     const nextEmpty = [1, 2, 3, 4, 5].find((num) => num !== targetBlank && !updated[num]);
@@ -116,7 +118,7 @@ export default function ActivityThree() {
     if (quizSubmitted) return;
     const updated = { ...selectedAnswers, [blankNum]: '' };
     setSelectedAnswers(updated);
-    localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
     setActiveBlank(blankNum);
   };
 
@@ -142,9 +144,9 @@ export default function ActivityThree() {
     setScoreCount(count);
     setQuizSubmitted(true);
 
-    localStorage.setItem('lactic_quiz_results_new', JSON.stringify(corrected));
-    localStorage.setItem('lactic_quiz_score_new', count.toString());
-    localStorage.setItem('lactic_quiz_submitted_new', 'true');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_results_new', JSON.stringify(corrected));
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_score_new', count.toString());
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_submitted_new', 'true');
   };
 
   const resetQuiz = () => {
@@ -155,11 +157,11 @@ export default function ActivityThree() {
     setScoreCount(0);
     setActiveBlank(1);
 
-    localStorage.removeItem('lactic_quiz_answers_new');
-    localStorage.removeItem('lactic_quiz_results_new');
-    localStorage.removeItem('lactic_quiz_score_new');
-    localStorage.removeItem('lactic_quiz_submitted_new');
-    localStorage.removeItem('lactic_progress_hd2');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_answers_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_results_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_score_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_submitted_new');
+    
   };
 
   const renderBlank = (num: number) => {

@@ -30,14 +30,53 @@ export default function Gateway() {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  /* Focus PIN input when form appears */
+  /* ── Student form state ── */
+  const [showStudentForm, setShowStudentForm] = useState(false);
+  const [studentName, setStudentName] = useState('');
+  const [studentError, setStudentError] = useState('');
+  const [studentLoading, setStudentLoading] = useState(false);
+  const studentInputRef = useRef<HTMLInputElement>(null);
+
+  /* Focus inputs when forms appear */
   useEffect(() => {
-    if (showPinForm && inputRef.current) {
-      inputRef.current.focus();
-    }
+    if (showPinForm && inputRef.current) inputRef.current.focus();
   }, [showPinForm]);
 
-  const handlePinSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (showStudentForm && studentInputRef.current) studentInputRef.current.focus();
+  }, [showStudentForm]);
+
+  const handleStudentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStudentError('');
+
+    if (!studentName.trim()) {
+      setStudentError('Vui lòng nhập họ tên.');
+      return;
+    }
+
+    setStudentLoading(true);
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentName }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        sessionStorage.setItem('lactic_role', 'student');
+        router.push('/home');
+      } else {
+        setStudentError(data.error || 'Lỗi đăng nhập');
+      }
+    } catch (err) {
+      setStudentError('Lỗi kết nối máy chủ');
+    } finally {
+      setStudentLoading(false);
+    }
+  };
+
+  const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -48,19 +87,26 @@ export default function Gateway() {
 
     setLoading(true);
 
-    /* Simulate tiny network delay for UX polish */
-    setTimeout(() => {
-      if (pin === TEACHER_PIN) {
-        /* Store auth flag so teacher routes can verify later */
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin }),
+      });
+      const data = await res.json();
+      if (data.success) {
         sessionStorage.setItem('lactic_role', 'teacher');
         router.push('/home');
       } else {
-        setError('Mã PIN không đúng. Vui lòng thử lại.');
+        setError(data.error || 'Mã PIN không đúng.');
         setPin('');
         inputRef.current?.focus();
       }
+    } catch (err) {
+      setError('Lỗi kết nối máy chủ');
+    } finally {
       setLoading(false);
-    }, 400);
+    }
   };
 
   return (
@@ -82,28 +128,21 @@ export default function Gateway() {
       <main className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2">
 
         {/* ═══════════════ LEFT — STUDENT ═══════════════ */}
-        <motion.button
-          onClick={() => {
-            sessionStorage.setItem('lactic_role', 'student');
-            router.push('/home');
-          }}
+        <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="group relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16
-                     bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-black
-                     cursor-pointer transition-colors duration-300
-                     hover:bg-[#F0F0F0] focus:outline-none"
+          className="relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-black"
         >
           {/* Giant watermark number */}
-          <span className="absolute top-4 right-6 font-mono text-[120px] sm:text-[160px] font-black text-black/[0.03] leading-none select-none pointer-events-none">
+          <span className="absolute top-4 left-6 font-mono text-[120px] sm:text-[160px] font-black text-black/[0.03] leading-none select-none pointer-events-none">
             01
           </span>
 
-          <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+          <div className="relative z-10 flex flex-col items-center text-center space-y-6 w-full max-w-sm">
             {/* Icon */}
-            <div className="p-5 border-2 border-black bg-[#FAFAFA] group-hover:bg-black group-hover:text-white transition-all duration-300">
-              <GraduationCap className="w-10 h-10 sm:w-12 sm:h-12" />
+            <div className="p-5 border-2 border-black bg-[#FAFAFA]">
+              <GraduationCap className="w-10 h-10 sm:w-12 sm:h-12 text-[#111111]" />
             </div>
 
             {/* Label */}
@@ -119,15 +158,104 @@ export default function Gateway() {
               </p>
             </div>
 
-            {/* CTA */}
-            <div className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-black bg-black text-white
-                            text-[11px] font-mono font-bold uppercase tracking-widest
-                            group-hover:bg-white group-hover:text-black transition-all duration-300">
-              <span>Bắt đầu học</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
+            {/* Form */}
+            <AnimatePresence mode="wait">
+              {!showStudentForm ? (
+                <motion.button
+                  key="student-toggle"
+                  onClick={() => setShowStudentForm(true)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-black bg-black text-white
+                             text-[11px] font-mono font-bold uppercase tracking-widest
+                             hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+                >
+                  <span>Bắt đầu học</span>
+                  <ArrowRight className="w-4 h-4" />
+                </motion.button>
+              ) : (
+                <motion.form
+                  key="student-form"
+                  onSubmit={handleStudentSubmit}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="w-full space-y-3"
+                >
+                  {/* Name input */}
+                  <div className="relative">
+                    <input
+                      ref={studentInputRef}
+                      type="text"
+                      value={studentName}
+                      onChange={(e) => {
+                        setStudentName(e.target.value);
+                        if (studentError) setStudentError('');
+                      }}
+                      placeholder="Nhập họ và tên của em"
+                      className={`w-full px-4 py-3 border-2 bg-white font-mono text-center
+                                  placeholder:text-[#CCCCCC]
+                                  focus:outline-none focus:border-black transition-colors
+                                  ${studentError ? 'border-[#B00020]' : 'border-black'}`}
+                      autoComplete="off"
+                    />
+                  </div>
+
+                  {/* Error message */}
+                  <AnimatePresence>
+                    {studentError && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="flex items-center justify-center space-x-1.5 text-[#B00020]"
+                      >
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span className="text-xs font-mono font-bold">{studentError}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Submit + Cancel */}
+                  <div className="flex space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowStudentForm(false);
+                        setStudentName('');
+                        setStudentError('');
+                      }}
+                      className="flex-1 px-4 py-2.5 border-2 border-[#D9D9D9] bg-white
+                                 text-[10px] font-mono font-bold uppercase tracking-widest text-[#666666]
+                                 hover:border-black hover:text-black transition-all cursor-pointer"
+                    >
+                      Huỷ
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={studentLoading}
+                      className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 border-2 border-black bg-black text-white
+                                 text-[10px] font-mono font-bold uppercase tracking-widest
+                                 hover:bg-neutral-800 transition-all cursor-pointer
+                                 disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {studentLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <>
+                          <span>Xác nhận</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
-        </motion.button>
+        </motion.div>
 
         {/* ═══════════════ RIGHT — TEACHER ═══════════════ */}
         <motion.div

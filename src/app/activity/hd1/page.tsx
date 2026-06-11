@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, FormEvent, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -24,10 +24,18 @@ import { INITIAL_DIARY_ENTRIES } from '../../../data';
 
 export default function ActivityOne() {
   /* ── Diary persistence ── */
-  const [entries, setEntries] = useState<DiaryEntry[]>(() => {
-    const saved = localStorage.getItem('lactic_diary_entries');
-    return saved ? JSON.parse(saved) : INITIAL_DIARY_ENTRIES;
-  });
+  const [entries, setEntries] = useState<any[]>(INITIAL_DIARY_ENTRIES);
+
+  useEffect(() => {
+    fetch('/api/diary')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.diaries.length > 0) {
+          setEntries(data.diaries);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   /* ── Video State ── */
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -49,7 +57,7 @@ export default function ActivityOne() {
   const [showSafetyModal, setShowSafetyModal] = useState(false);
 
   /* ── Form submit ── */
-  const handleSubmitDiary = (e: FormEvent) => {
+  const handleSubmitDiary = async (e: FormEvent) => {
     e.preventDefault();
     if (!studentName.trim() || !studentGroup.trim() || !startTime.trim()) {
       setNotificationMsg(
@@ -59,34 +67,51 @@ export default function ActivityOne() {
       return;
     }
 
-    const newEntry: DiaryEntry = {
-      id: `diary-${Date.now()}`,
-      studentName,
-      studentGroup,
-      startTime,
-      color,
-      state,
-      taste: taste || 'Chưa ghi nhận',
-      notes,
-      createdAt: new Date().toLocaleDateString('vi-VN'),
-    };
+    try {
+      // 1. Submit diary
+      const res = await fetch('/api/diary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentGroup,
+          startTime,
+          color,
+          state,
+          taste: taste || 'Chưa ghi nhận',
+          notes,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEntries([data.diary, ...entries]);
+        
+        // 2. Update progress
+        await fetch('/api/progress', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ stepKey: 'hd1' }),
+        });
 
-    const updated = [newEntry, ...entries];
-    setEntries(updated);
-    localStorage.setItem('lactic_diary_entries', JSON.stringify(updated));
-    localStorage.setItem('lactic_progress_hd1', 'true');
+        setStudentName('');
+        setStudentGroup('');
+        setStartTime('');
+        setTaste('');
+        setNotes('');
 
-    setStudentName('');
-    setStudentGroup('');
-    setStartTime('');
-    setTaste('');
-    setNotes('');
-
-    setNotificationMsg(
-      '✓ Nhật ký thực hành đã được lưu thành công! Xem kết quả trong bảng tổng hợp bên dưới.',
-    );
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 5000);
+        setNotificationMsg(
+          '✓ Nhật ký thực hành đã được lưu thành công! Xem kết quả trong bảng tổng hợp bên dưới.',
+        );
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 5000);
+      } else {
+        setNotificationMsg(data.error || 'Có lỗi xảy ra.');
+        setShowNotification(true);
+      }
+    } catch (err) {
+      console.error(err);
+      setNotificationMsg('Có lỗi xảy ra khi lưu nhật ký. Vui lòng thử lại!');
+      setShowNotification(true);
+    }
   };
 
   /* ═══════════════════════════ RENDER ═══════════════════════════ */

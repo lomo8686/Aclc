@@ -5,7 +5,7 @@ import { RUBRIC_CRITERIA, MOCK_COMPARISON_GROUPS } from '../../../data';
 
 export default function ActivityTwo() {
   const [ratings, setRatings] = useState<Record<string, number>>(() => {
-    const saved = localStorage.getItem('lactic_rubric_ratings');
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_rubric_ratings') : null) : null) : null);
     return saved ? JSON.parse(saved) : {
       'do-dac': 5,
       'vi-chua-ngot': 4,
@@ -38,8 +38,8 @@ export default function ActivityTwo() {
       [critId]: starVal
     };
     setRatings(updated);
-    localStorage.setItem('lactic_rubric_ratings', JSON.stringify(updated));
-    localStorage.setItem('lactic_progress_hd3', 'true');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_rubric_ratings', JSON.stringify(updated));
+    fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd3' }) }).catch(console.error);
   };
 
   const totalPossible = Object.keys(ratings).length * 5;

@@ -108,7 +108,7 @@ export default function ActivityFour() {
                 <button
                   onClick={() => {
                     setShowHint(!showHint);
-                    localStorage.setItem('lactic_progress_hd4', 'true');
+                    fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd4' }) }).catch(console.error);
                   }}
                   className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-none text-[10px] font-mono font-bold uppercase tracking-widest transition-all cursor-pointer ${
                     showHint 
@@ -123,7 +123,7 @@ export default function ActivityFour() {
                 <button
                   onClick={() => {
                     setShowAnswer(!showAnswer);
-                    localStorage.setItem('lactic_progress_hd4', 'true');
+                    fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd4' }) }).catch(console.error);
                   }}
                   className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-none text-[10px] font-mono font-bold uppercase tracking-widest transition-all cursor-pointer ${
                     showAnswer 

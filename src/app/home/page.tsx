@@ -99,6 +99,7 @@ export default function HomePage() {
   
   /* ── State variables ── */
   const [isTeacher, setIsTeacher] = useState(false);
+  const [studentName, setStudentName] = useState('Nhà khoa học nhí');
   const [progress, setProgress] = useState<Record<string, boolean>>({
     hd1: false,
     hd2: false,
@@ -106,63 +107,64 @@ export default function HomePage() {
     hd4: false,
     assessment: false,
   });
+  const [loading, setLoading] = useState(true);
 
-  const [latestDiary, setLatestDiary] = useState<DiaryEntry | null>(null);
-
-  /* Load stats from localStorage */
+  /* Load stats from API */
   useEffect(() => {
-    setIsTeacher(sessionStorage.getItem('lactic_role') === 'teacher');
-    
-    // Progress checks
-    const p1 = localStorage.getItem('lactic_progress_hd1') === 'true';
-    const p2 = localStorage.getItem('lactic_progress_hd2') === 'true';
-    const p3 = localStorage.getItem('lactic_progress_hd3') === 'true';
-    const p4 = localStorage.getItem('lactic_progress_hd4') === 'true';
-    const pAsm = localStorage.getItem('lactic_progress_assessment') === 'true';
-
-    setProgress({
-      hd1: p1,
-      hd2: p2,
-      hd3: p3,
-      hd4: p4,
-      assessment: pAsm,
-    });
-
-    // Practice Diary load
-    const savedDiaries = localStorage.getItem('lactic_diary_entries');
-    if (savedDiaries) {
+    async function loadData() {
       try {
-        const parsed = JSON.parse(savedDiaries) as DiaryEntry[];
-        if (parsed.length > 0) {
-          setLatestDiary(parsed[0]); // Load the most recent entry
+        const [meRes, progressRes] = await Promise.all([
+          fetch('/api/auth/me'),
+          fetch('/api/progress')
+        ]);
+
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          if (meData.authenticated) {
+            setIsTeacher(meData.user.role === 'teacher');
+            if (meData.user.role === 'student') {
+              setStudentName(meData.user.name);
+            }
+          } else {
+            router.push('/');
+          }
+        } else {
+          router.push('/');
         }
-      } catch (e) {
-        console.error('Error parsing diaries', e);
+
+        if (progressRes.ok) {
+          const pData = await progressRes.json();
+          if (pData.success && pData.progress?.completedSteps) {
+            const completed = pData.progress.completedSteps as string[];
+            setProgress({
+              hd1: completed.includes('hd1'),
+              hd2: completed.includes('hd2'),
+              hd3: completed.includes('hd3'),
+              hd4: completed.includes('hd4'),
+              assessment: completed.includes('assessment'),
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading data', error);
+      } finally {
+        setLoading(false);
       }
     }
-  }, []);
+    loadData();
+  }, [router]);
 
   const completedCount = Object.values(progress).filter(Boolean).length;
   const totalStepsCount = steps.length;
   const percentage = Math.round((completedCount / totalStepsCount) * 100);
 
-  // Student name determined from practice diary or default
-  const studentName = latestDiary?.studentName || 'Nhà khoa học nhí';
-
-  const handleResetProgress = () => {
-    if (window.confirm('Em có chắc chắn muốn xóa toàn bộ lịch sử học tập để làm lại từ đầu không?')) {
-      localStorage.clear();
-      
-      setProgress({
-        hd1: false,
-        hd2: false,
-        hd3: false,
-        hd4: false,
-        assessment: false,
-      });
-      setLatestDiary(null);
-    }
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    sessionStorage.clear();
+    router.push('/');
   };
+
+  if (loading) return null;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFAFA] font-sans text-[#111111] antialiased selection:bg-black selection:text-white">
@@ -184,13 +186,10 @@ export default function HomePage() {
               KHOA HỌC LỚP 5
             </span>
             <button
-              onClick={() => {
-                sessionStorage.clear();
-                router.push('/');
-              }}
+              onClick={handleLogout}
               className="px-3 py-1 border border-dashed border-[#B00020] hover:bg-red-50 text-[#B00020] text-[9.5px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
             >
-              Đổi vai trò
+              Đăng xuất
             </button>
           </div>
         </div>
@@ -236,16 +235,6 @@ export default function HomePage() {
               <span className="text-[9px] font-mono text-[#888888]">
                 {percentage === 100 ? '🎉 Xuất sắc! Em đã hoàn thành' : '⚡ Cố gắng lên con nhé!'}
               </span>
-              
-              {completedCount > 0 && (
-                <button
-                  onClick={handleResetProgress}
-                  className="inline-flex items-center space-x-1 text-[#B00020] hover:underline text-[9px] font-mono font-bold uppercase tracking-wider cursor-pointer"
-                >
-                  <RefreshCw className="w-2.5 h-2.5" />
-                  <span>Xóa lịch sử</span>
-                </button>
-              )}
             </div>
           </div>
         </section>

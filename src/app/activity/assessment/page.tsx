@@ -170,13 +170,13 @@ export default function Assessment() {
 
   /* ── Embed URL State ── */
   const [embedUrl, setEmbedUrl] = useState(() => {
-    return localStorage.getItem('lactic_assessment_url') || DEFAULT_EMBED_URL;
+    return (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_assessment_url') : null) : null) : null) || DEFAULT_EMBED_URL;
   });
   const [isEditingUrl, setIsEditingUrl] = useState(false);
   const [tempUrl, setTempUrl] = useState(embedUrl);
 
   useEffect(() => {
-    localStorage.setItem('lactic_progress_assessment', 'true');
+    fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'assessment' }) }).catch(console.error);
   }, []);
 
   const toggleAccordion = (id: string) => {
@@ -204,7 +204,7 @@ export default function Assessment() {
 
   const handleSaveUrl = () => {
     setEmbedUrl(tempUrl);
-    localStorage.setItem('lactic_assessment_url', tempUrl);
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_assessment_url', tempUrl);
     setIsEditingUrl(false);
     setIframeLoaded(false); // Reset loading state
   };
