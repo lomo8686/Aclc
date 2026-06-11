@@ -59,7 +59,7 @@ export default function ActivityOne() {
   // Force show on every mount (fixes Next.js client cache issues)
   useEffect(() => {
     setShowSafetyModal(true);
-  }, []);
+  }, [setShowSafetyModal]);
 
   /* ── Form submit ── */
   const handleSubmitDiary = async (e: FormEvent) => {
