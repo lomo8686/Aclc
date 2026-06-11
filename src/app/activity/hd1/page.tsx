@@ -54,7 +54,7 @@ export default function ActivityOne() {
   const [notificationMsg, setNotificationMsg] = useState('');
 
   /* ── Safety modal ── */
-  const [showSafetyModal, setShowSafetyModal] = useState(false);
+  const [showSafetyModal, setShowSafetyModal] = useState(true);
 
   /* ── Form submit ── */
   const handleSubmitDiary = async (e: FormEvent) => {
