@@ -56,6 +56,11 @@ export default function ActivityOne() {
   /* ── Safety modal ── */
   const [showSafetyModal, setShowSafetyModal] = useState(true);
 
+  // Force show on every mount (fixes Next.js client cache issues)
+  useEffect(() => {
+    setShowSafetyModal(true);
+  }, []);
+
   /* ── Form submit ── */
   const handleSubmitDiary = async (e: FormEvent) => {
     e.preventDefault();
