@@ -1,224 +1,489 @@
-﻿"use client";
-import { useState } from 'react';
-import { Star, Award, CheckCircle, Table, BrainCircuit } from 'lucide-react';
-import { RUBRIC_CRITERIA, MOCK_COMPARISON_GROUPS } from '../../../data';
+"use client";
+import { useState, useEffect, useRef } from 'react';
+import { ChevronRight, Share2, Award, Lightbulb, Maximize, Minimize } from 'lucide-react';
+import { QUIZ_QUESTIONS } from '../../../data';
 
-export default function ActivityTwo() {
-  const [ratings, setRatings] = useState<Record<string, number>>(() => {
-    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_rubric_ratings') : null) : null) : null);
-    return saved ? JSON.parse(saved) : {
-      'do-dac': 5,
-      'vi-chua-ngot': 4,
-      'mau-sac': 5,
-      'mui-huong': 5,
-      'nhat-ky-onl': 4,
-    };
+const OPTIONS = [
+  'lên men',
+  'lỏng',
+  'lactic',
+  'chua ngọt',
+  'tốt nhất',
+];
+
+const CORRECT_ANSWERS: Record<number, string> = {
+  1: 'lactic',
+  2: 'lên men',
+  3: 'tốt nhất',
+  4: 'lỏng',
+  5: 'chua ngọt',
+};
+
+export default function ActivityThree() {
+  useEffect(() => {
+    import('@google/model-viewer').catch(console.error);
+  }, []);
+  /* ── Fullscreen state for 3D model ── */
+  const [isModelFullscreen, setIsModelFullscreen] = useState(false);
+  const modelContainerRef = useRef<HTMLDivElement>(null);
+
+  /* ── Fill in the blanks state ── */
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>(() => {
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_answers_new') : null) : null);
+    return saved ? JSON.parse(saved) : { 1: '', 2: '', 3: '', 4: '', 5: '' };
   });
 
-  const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
+  const [activeBlank, setActiveBlank] = useState<number | null>(1);
 
-  const reflections = [
-    {
-      q: 'Sữa chua và sữa trước khi ủ có những khác biệt gì về mùi, vị, độ đặc?',
-      a: 'Sữa trước khi ủ có dạng lỏng, vị ngọt béo và mùi thơm của sữa. Sau khi ủ thành sữa chua, sản phẩm chuyển sang trạng thái đặc sánh (đông tụ), có vị chua dịu và mùi thơm nồng nhẹ đặc trưng do quá trình lên men của vi khuẩn Lactic.'
-    },
-    {
-      q: 'Vì sao cần cho sữa chua vào sữa tươi (hoặc sữa đặc đã pha loãng)?',
-      a: 'Đó chính là bước "cấy men giống"! Hộp sữa chua mồi đóng vai trò cung cấp hàng tỷ vi khuẩn Lactic sống. Khi được cho vào môi trường sữa nhiều dinh dưỡng, vi khuẩn Lactic sẽ bắt đầu "ăn" đường, sinh sôi nảy nở và lên men toàn bộ mẻ sữa.'
-    },
-    {
-      q: 'Vì sao trong quá trình làm sữa chua cần ủ ấm sữa ở nhiệt độ khoảng 40°C đến 50°C?',
-      a: 'Nhiệt độ 40°C - 50°C là điều kiện lý tưởng nhất để vi khuẩn Lactic hoạt động. Ở mức nhiệt này, chúng phát triển mạnh mẽ và lên men nhanh chóng. Nếu ủ lạnh quá vi khuẩn sẽ "ngủ đông", còn nếu nóng quá (>50°C) vi khuẩn sẽ bị biến tính và chết!'
+  const [quizSubmitted, setQuizSubmitted] = useState(() => {
+    return (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_submitted_new') : null) : null) === 'true';
+  });
+
+  const [quizResults, setQuizResults] = useState<Record<number, boolean>>(() => {
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_results_new') : null) : null);
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const [scoreCount, setScoreCount] = useState(() => {
+    const saved = (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? localStorage.getItem('lactic_quiz_score_new') : null) : null);
+    return saved ? Number(saved) : 0;
+  });
+
+  useEffect(() => { import('@google/model-viewer').catch(console.error); 
+    if (quizSubmitted && scoreCount === 5) {
+      fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd2' }) }).catch(console.error);
     }
-  ];
+  }, [quizSubmitted, scoreCount]);
 
-  const handleStarClick = (critId: string, starVal: number) => {
-    const updated = {
-      ...ratings,
-      [critId]: starVal
+  /* Monitor browser fullscreen state changes */
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsModelFullscreen(!!document.fullscreenElement);
     };
-    setRatings(updated);
-    if (typeof window !== 'undefined') if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_rubric_ratings', JSON.stringify(updated));
-    fetch('/api/progress', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stepKey: 'hd3' }) }).catch(console.error);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleModelFullscreen = () => {
+    if (!modelContainerRef.current) return;
+    if (!document.fullscreenElement) {
+      modelContainerRef.current
+        .requestFullscreen()
+        .then(() => setIsModelFullscreen(true))
+        .catch(() => {});
+    } else {
+      document
+        .exitFullscreen()
+        .then(() => setIsModelFullscreen(false))
+        .catch(() => {});
+    }
   };
 
-  const totalPossible = Object.keys(ratings).length * 5;
-  const currentTotal = (Object.values(ratings) as number[]).reduce((a, b) => a + b, 0);
-  const scorePercent = Math.round((currentTotal / totalPossible) * 100);
+  const handleSelectOption = (option: string) => {
+    if (quizSubmitted) return;
 
-  const getRubricVerdict = (percent: number) => {
-    if (percent >= 90) return { title: 'HOÀN HẢO MỸ MÃN 🏆', msg: 'Một mẻ vi khuẩn Lactic phát triển tuyệt vời, sữa dẻo thơm, đặc sánh chín sữa mịn!', color: 'text-white bg-[#111111] border-black' };
-    if (percent >= 70) return { title: 'ĐẠT CHUẨN TỐT 👍', msg: 'Sữa đông ấm miệng, chua ngọt tròn vị, nhật trình viết tay khá đầy đủ. Cố gắng phát huy con nhé!', color: 'text-black bg-white border-2 border-black' };
-    return { title: 'CẦN CẢI THIỆN THÊM 🧪', msg: 'Sữa chua có thể chưa đủ ẩm hoặc chưa chuẩn thời gian ủ mồi. Em hãy mở HĐ4 tham khảo mẹo cứu nhé!', color: 'text-white bg-[#B00020] border-[#B00020]' };
+    let targetBlank = activeBlank;
+    if (targetBlank === null) {
+      targetBlank = [1, 2, 3, 4, 5].find((num) => !selectedAnswers[num]) || null;
+    }
+
+    if (targetBlank === null) return;
+
+    const updated = { ...selectedAnswers };
+
+    // Clear option if it was already selected in another blank
+    Object.keys(updated).forEach((key) => {
+      const k = Number(key);
+      if (updated[k] === option) {
+        updated[k] = '';
+      }
+    });
+
+    updated[targetBlank] = option;
+    setSelectedAnswers(updated);
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
+
+    // Auto-advance
+    const nextEmpty = [1, 2, 3, 4, 5].find((num) => num !== targetBlank && !updated[num]);
+    if (nextEmpty) {
+      setActiveBlank(nextEmpty);
+    } else {
+      setActiveBlank(null);
+    }
   };
 
-  const verdict = getRubricVerdict(scorePercent);
+  const handleClearBlank = (blankNum: number) => {
+    if (quizSubmitted) return;
+    const updated = { ...selectedAnswers, [blankNum]: '' };
+    setSelectedAnswers(updated);
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_answers_new', JSON.stringify(updated));
+    setActiveBlank(blankNum);
+  };
+
+  const handleBlankClick = (blankNum: number) => {
+    if (quizSubmitted) return;
+    setActiveBlank(blankNum);
+  };
+
+  const checkQuizAnswers = () => {
+    let corrected: Record<number, boolean> = {};
+    let count = 0;
+
+    Object.entries(CORRECT_ANSWERS).forEach(([key, val]) => {
+      const num = Number(key);
+      const correct = selectedAnswers[num] === val;
+      corrected[num] = correct;
+      if (correct) {
+        count++;
+      }
+    });
+
+    setQuizResults(corrected);
+    setScoreCount(count);
+    setQuizSubmitted(true);
+
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_results_new', JSON.stringify(corrected));
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_score_new', count.toString());
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.setItem('lactic_quiz_submitted_new', 'true');
+  };
+
+  const resetQuiz = () => {
+    const defaultAnswers = { 1: '', 2: '', 3: '', 4: '', 5: '' };
+    setSelectedAnswers(defaultAnswers);
+    setQuizResults({});
+    setQuizSubmitted(false);
+    setScoreCount(0);
+    setActiveBlank(1);
+
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_answers_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_results_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_score_new');
+    if (typeof window !== 'undefined') if (typeof window !== 'undefined') localStorage.removeItem('lactic_quiz_submitted_new');
+    
+  };
+
+  const renderBlank = (num: number) => {
+    const value = selectedAnswers[num];
+    const isFilled = !!value;
+    const isActive = activeBlank === num;
+    const correct = quizResults[num];
+
+    let btnClass = 'inline-flex items-center justify-center px-2 py-0.5 font-mono font-bold text-[11px] mx-1 border transition-all rounded-none ';
+
+    if (quizSubmitted) {
+      if (correct) {
+        btnClass += 'border-emerald-600 bg-emerald-50 text-emerald-800 cursor-default';
+      } else {
+        btnClass += 'border-red-600 bg-red-50 text-red-800 cursor-default';
+      }
+    } else {
+      if (isActive) {
+        btnClass += 'border-black bg-yellow-300 text-black shadow-[1px_1px_0px_0px_#000000] scale-105';
+      } else if (isFilled) {
+        btnClass += 'border-black bg-[#FAFAFA] text-black hover:bg-neutral-100 cursor-pointer';
+      } else {
+        btnClass += 'border-dashed border-neutral-400 bg-white text-neutral-400 hover:border-black hover:text-black cursor-pointer';
+      }
+    }
+
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          if (isFilled && !quizSubmitted) {
+            handleClearBlank(num);
+          } else {
+            handleBlankClick(num);
+          }
+        }}
+        className={btnClass}
+        style={!quizSubmitted && isActive ? { transform: 'translateY(-0.5px)' } : undefined}
+      >
+        <span className="text-[8px] text-neutral-400 mr-1 font-mono">({num})</span>
+        {isFilled ? value : '___________'}
+        {isFilled && !quizSubmitted && (
+          <span className="ml-1 text-neutral-400 hover:text-red-600 text-[9px] font-mono">×</span>
+        )}
+        {quizSubmitted && (
+          <span className="ml-1 text-[10px] font-bold">
+            {correct ? ' ✓' : ' ✗'}
+          </span>
+        )}
+      </button>
+    );
+  };
 
   return (
-    <section id="hd3" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#D9D9D9]">
+    <section id="hd2" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAFA] border-b border-[#D9D9D9]">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header Title */}
+        {/* Step Header */}
         <div className="mb-12">
           <div className="flex items-center space-x-3 mb-2">
-            <span className="font-mono text-5xl md:text-6xl font-bold text-[#D9D9D9] leading-none">03</span>
+            <span className="font-mono text-5xl md:text-6xl font-bold text-[#D9D9D9] leading-none">02</span>
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#444444] block">Bước 3: Cùng xem lại & Đánh giá (Kolb - Phản ngẫm)</span>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#444444] block">Bước 2: Khám phá thế giới vi sinh (Kolb - Khái niệm hóa)</span>
               <h2 className="font-display font-medium text-2xl md:text-3xl text-[#111111] tracking-tight">
-                HĐ3 — Cùng chấm điểm Rubric & Thảo luận
+                HĐ2 — Quan sát vi sinh vật dưới kính hiển vi ảo
               </h2>
             </div>
           </div>
           <p className="text-sm md:text-base text-[#444444] max-w-3xl leading-relaxed mt-2">
-            Học sinh mang sản phẩm sữa chua tự làm tới lớp. Thầy cô và cả lớp đóng vai những chuyên gia ẩm thực nhí để chấm điểm chéo các hũ sữa chua và cùng trả lời những câu hỏi khoa học thú vị nhé.
+            Chào mừng các em đến với phòng thí nghiệm sinh học lớp 5! Cùng tự tay xoay núm điều chỉnh kính hiển vi ảo để nhìn rõ nét cấu tạo vi khuẩn Lactic, và hoàn thành trò chơi điền từ vào ô trống củng cố bài học nhé.
           </p>
         </div>
 
-        {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        {/* 2-Columns layout on Desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
-          {/* Interactive Star Rubric Selection Panel */}
-          <div className="p-6 sm:p-8 bg-[#FAFAFA] border border-[#D9D9D9] rounded-none space-y-6">
-            <div className="flex items-center justify-between border-b border-[#D9D9D9] pb-4">
-              <div>
-                <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-[#111111] flex items-center space-x-2">
-                  <Award className="w-5 h-5 text-black" />
-                  <span>Trình Chiếu Rubric Chữ Vàng</span>
+          {/* Column Left: Visualizer and Mindmap (7 cols) */}
+          <div className="lg:col-span-7 space-y-6 flex flex-col justify-between">
+            
+            {/* 3D Model Viewer — replaces the old SVG microscope */}
+            <div
+              ref={modelContainerRef}
+              className="bg-white border-2 border-black overflow-hidden flex flex-col"
+              style={{
+                boxShadow: isModelFullscreen ? 'none' : '6px 6px 0px 0px #000000',
+                height: isModelFullscreen ? '100vh' : 'auto',
+              }}
+            >
+              {/* Top bar */}
+              <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                <h3 className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-emerald-400" />
+                  Mô hình 3D — Vi khuẩn Lactobacillus
                 </h3>
-                <p className="text-[11px] text-[#444444] mt-1">Click chấm sao chéo hũ của nhóm bạn em nhé!</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={toggleModelFullscreen}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-neutral-600 bg-neutral-900
+                               text-[9px] font-mono font-bold uppercase tracking-widest text-white
+                               hover:bg-neutral-700 transition-colors cursor-pointer"
+                    title={isModelFullscreen ? 'Thu nhỏ' : 'Phóng to toàn màn hình'}
+                  >
+                    {isModelFullscreen ? (
+                      <>
+                        <Minimize className="w-3.5 h-3.5" />
+                        <span>Thu nhỏ</span>
+                      </>
+                    ) : (
+                      <>
+                        <Maximize className="w-3.5 h-3.5" />
+                        <span>Phóng to</span>
+                      </>
+                    )}
+                  </button>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-red-500" />
+                    <span className="w-2.5 h-2.5 bg-yellow-400" />
+                    <span className="w-2.5 h-2.5 bg-emerald-400" />
+                  </span>
+                </div>
               </div>
-              <div className="text-right">
-                <span className="font-mono text-[9px] text-[#444444] uppercase block tracking-wider font-bold">Điểm số</span>
-                <span className="font-mono text-xl font-bold text-black">{currentTotal} / {totalPossible}</span>
-              </div>
-            </div>
 
-            {/* Rubric rows */}
-            <div className="space-y-4">
-              {RUBRIC_CRITERIA.map((crit) => {
-                const currentRating = ratings[crit.id] || 0;
-                return (
-                  <div key={crit.id} className="space-y-1.5 p-4 rounded-none bg-white border border-[#D9D9D9] hover:border-black transition-all">
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-black font-mono uppercase tracking-wide">{crit.label}</span>
-                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#444444]">Bậc {currentRating}/5</span>
+              {/* Model viewport */}
+              <div className={`bg-[#111111] relative ${isModelFullscreen ? 'flex-1' : 'aspect-video'}`}>
+                {/* @google/model-viewer web component */}
+                <model-viewer
+                  src="/models/Meshy_AI_Rod_shaped_Bacteria_E_0606101028_texture.glb"
+                  alt="Mô hình 3D vi khuẩn Lactobacillus"
+                  auto-rotate
+                  camera-controls
+                  shadow-intensity="1"
+                  shadow-softness="1"
+                  exposure="1"
+                  camera-orbit="45deg 55deg 2.5m"
+                  interaction-prompt="auto"
+                  touch-action="pan-y"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#111111',
+                    outline: 'none',
+                  }}
+                >
+                  {/* Fallback content shown while .glb is loading */}
+                  <div
+                    slot="poster"
+                    className="absolute inset-0 flex flex-col items-center justify-center bg-[#111111] text-center px-6"
+                  >
+                    <div className="inline-flex p-4 border-2 border-dashed border-neutral-600 mb-4">
+                      <svg className="w-10 h-10 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                      </svg>
                     </div>
-                    <p className="text-xs text-[#444444] leading-relaxed pr-6">{crit.description}</p>
-                    
-                    {/* Stars element */}
-                    <div className="flex space-x-1 pt-1.5">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => handleStarClick(crit.id, star)}
-                          className="focus:outline-none transition-transform hover:scale-110 cursor-pointer"
-                        >
-                          <Star 
-                            className={`w-5 h-5 transition-colors ${
-                              star <= currentRating 
-                                ? 'fill-black text-black' 
-                                : 'text-[#D9D9D9] hover:text-black'
-                            }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
+                    <p className="font-mono text-xs text-neutral-400 uppercase tracking-widest">
+                      Đang tải mô hình 3D (~18 MB)...
+                    </p>
+                    <p className="font-mono text-[10px] text-neutral-600 mt-1">
+                      Vui lòng đợi trong giây lát
+                    </p>
                   </div>
-                );
-              })}
+                </model-viewer>
+              </div>
+
+              {/* Bottom info strip */}
+              <div className="border-t-2 border-black bg-white px-5 py-3 flex items-center justify-between">
+                <span className="font-mono text-[10px] font-bold text-[#888888] uppercase tracking-widest">
+                  🖱️ Xoay · Zoom · Kéo để khám phá
+                </span>
+                <span className="font-mono text-[10px] text-[#CCCCCC]">
+                  WebGL · Auto-rotate
+                </span>
+              </div>
             </div>
 
-            {/* Live calculated verdict */}
-            <div className={`p-5 rounded-none border ${verdict.color} transition-all duration-300`}>
-              <h4 className="font-mono text-xs font-bold uppercase tracking-widest mb-1.5 flex items-center">
-                <CheckCircle className="w-4 h-4 mr-1.5 shrink-0" />
-                <span>Kết Quả Đánh Giá: {verdict.title} ({scorePercent}%)</span>
-              </h4>
-              <p className="text-xs leading-relaxed opacity-95">{verdict.msg}</p>
+            {/* Mind Map Block representation */}
+            <div className="bg-white border border-[#D9D9D9] rounded-none p-6">
+              <h3 className="font-mono font-bold text-xs text-[#111111] uppercase tracking-widest mb-4 flex items-center space-x-2">
+                <Share2 className="w-4 h-4 text-black" />
+                <span>SƠ ĐỒ TƯ DUY KHÁI QUÁT HÓA 🗺️</span>
+              </h3>
+              
+              {/* Grid Mind Map representation */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                
+                {/* Node Center */}
+                <div className="sm:col-span-4 p-4 bg-black text-white rounded-none border border-black text-center">
+                  <span className="font-mono font-bold text-xs block uppercase tracking-wider">VI KHUẨN LACTIC</span>
+                  <span className="font-mono text-[9px] uppercase tracking-widest opacity-80 mt-1 block">(Lợi Khuẩn Số Một)</span>
+                </div>
+
+                {/* Arrow connector */}
+                <div className="hidden sm:block sm:col-span-1 text-center text-neutral-400">
+                  <ChevronRight className="w-5 h-5 mx-auto" />
+                </div>
+
+                {/* Nodes children */}
+                <div className="sm:col-span-7 space-y-2">
+                  {[
+                    { label: '🌾 Lên men đường', desc: 'Sử dụng bầu sữa bột/đường Lactose để dồi dào sinh khối.' },
+                    { label: '🧪 Tạo vị Axit Lactic', desc: 'Tạo vị chua thanh đặc thù, tăng độ bền dưỡng chất.' },
+                    { label: '🥛 Sữa đông dẻo', desc: 'Làm đông tụ protein trong môi trường nhiệt độ thích hợp.' },
+                    { label: '🥒 Ứng dụng dưa muối', desc: 'Khống chế vi sinh vật gây thối và làm giòn dưa cải.' }
+                  ].map((node, idx) => (
+                    <div key={idx} className="p-2.5 bg-[#FAFAFA] border border-[#D9D9D9] rounded-none text-left hover:border-black transition-colors flex items-start space-x-2.5">
+                      <div className="mt-1.5 w-1.5 h-1.5 rounded-none bg-black" />
+                      <div>
+                        <strong className="text-xs font-mono uppercase tracking-wide text-black block">{node.label}</strong>
+                        <span className="text-[10px] text-[#444444] leading-snug">{node.desc}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
             </div>
+
           </div>
 
-          {/* Right side: Reflective Questions Cards & Classroom Dashboard Table */}
-          <div className="space-y-8">
-            
-            {/* Reflection Flashcards */}
+          {/* Column Right: Interactive blanks game (5 cols) */}
+          <div className="lg:col-span-5 bg-white border border-[#D9D9D9] rounded-none p-6 flex flex-col justify-between">
             <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <BrainCircuit className="w-5 h-5 text-black" />
-                <h3 className="font-mono font-bold text-xs tracking-widest text-[#111111] uppercase">
-                  GÓC ÔN TẬP PHẢN NGẪM SÂU
+              <div className="border-b border-[#D9D9D9] pb-3">
+                <h3 className="font-mono font-bold text-xs uppercase tracking-widest text-[#111111] flex items-center space-x-2">
+                  <Award className="w-5 h-5 text-black" />
+                  <span>CỦNG CỐ KIẾN THỨC BẰNG MINIGAME</span>
                 </h3>
+                <p className="text-[11px] text-[#444444] mt-1 pr-4">
+                  Thử tài lý thuyết bài học Lớp 5. Điền từ thích hợp vào từng chỗ trống:
+                </p>
               </div>
-              <p className="text-xs text-[#444444]">Các em hãy bấm vào câu hỏi dưới đây xem trả lời khoa học nha!</p>
-              
-              <div className="space-y-3">
-                {reflections.map((ref, idx) => {
-                  const isOpen = activeQuestion === idx;
-                  return (
-                    <div 
-                      key={idx} 
-                      className="border border-[#D9D9D9] rounded-none overflow-hidden bg-white transition-all duration-200"
-                    >
-                      <button
-                        onClick={() => setActiveQuestion(isOpen ? null : idx)}
-                        className="w-full text-left p-4 focus:outline-none flex justify-between items-center bg-[#FAFAFA] hover:bg-[#F2F2F2] transition-colors"
-                      >
-                        <span className="text-xs font-mono font-bold text-black uppercase tracking-wider leading-snug">
-                          0{idx + 1}. {ref.q}
-                        </span>
-                        <span className="text-[10px] font-mono font-bold text-black shrink-0 ml-4">
-                          {isOpen ? '[- THU GỌN]' : '[+ XEM TỰ LUẬN]'}
-                        </span>
-                      </button>
 
-                      {isOpen && (
-                        <div className="p-4 border-t border-[#D9D9D9] bg-white text-xs text-[#444444] leading-relaxed font-sans">
-                          {ref.a}
-                        </div>
-                      )}
+              {/* Questions stack */}
+              <div className="space-y-5 pt-2">
+                {QUIZ_QUESTIONS.map((q) => {
+                  return (
+                    <div key={q.id} className="text-xs space-y-1.5 border-b border-[#F2F2F2] pb-3 last:border-b-0 last:pb-0">
+                      <span className="font-mono text-[9px] text-[#888888] block font-bold tracking-wider">CÂU HỎI {q.id}</span>
+                      <div className="text-neutral-800 leading-relaxed font-sans text-xs">
+                        {q.sentenceBefore}
+                        {renderBlank(q.id)}
+                        {q.sentenceAfter}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Comparison of classroom teams - Image Showcase */}
-            <div className="bg-[#FAFAFA] border border-[#D9D9D9] rounded-none p-6 space-y-4">
-              <div className="flex items-center space-x-2 border-b border-[#D9D9D9] pb-3">
-                <Table className="w-4 h-4 text-black" />
-                <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-black">
-                  Hình Ảnh Thực Nghiệm 3 Nhóm Mẫu
-                </h4>
+            {/* Selection Options panel */}
+            {!quizSubmitted && (
+              <div className="space-y-3 pt-4 border-t border-[#D9D9D9] mt-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[9px] font-bold text-neutral-500 uppercase tracking-widest">
+                    {activeBlank ? `👉 Đang chọn cho ô (${activeBlank})` : 'Chọn một ô trống ở trên'}
+                  </span>
+                  <span className="font-mono text-[8px] text-[#AAAAAA]">
+                    Nhấn vào từ để chọn
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {OPTIONS.map((opt) => {
+                    const used = Object.values(selectedAnswers).includes(opt);
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        disabled={used}
+                        onClick={() => handleSelectOption(opt)}
+                        className={`px-3 py-1.5 border-2 text-[11px] font-mono font-bold uppercase transition-all rounded-none cursor-pointer ${
+                          used
+                            ? 'border-neutral-200 bg-neutral-100 text-neutral-300 cursor-not-allowed line-through'
+                            : 'border-black bg-white text-black hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_#000000] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              
-              <div className="bg-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_#000000]">
-                {/* Image Container */}
-                <div className="aspect-video relative overflow-hidden bg-[#F2F2F2] border border-[#D9D9D9] group cursor-pointer">
-                  <img 
-                    src="/models/yogurt_comparison.png" 
-                    alt="So sánh 3 trạng thái của sữa chua: Đặc hoàn hảo, Lỏng do thiếu men, và Tách nước do quá nóng"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  
-                  {/* Overlay text on hover */}
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white font-mono text-xs font-bold uppercase tracking-widest border border-white px-4 py-2">
-                      Phóng to ảnh
-                    </span>
+            )}
+
+            {/* Quiz interactions control container */}
+            <div className="pt-6 border-t border-[#D9D9D9] mt-6 space-y-4">
+              {!quizSubmitted ? (
+                <button
+                  onClick={checkQuizAnswers}
+                  disabled={!Object.values(selectedAnswers).every(val => val !== '')}
+                  className={`w-full py-3 border-2 font-mono font-bold text-xs uppercase tracking-widest transition-all rounded-none ${
+                    Object.values(selectedAnswers).every(val => val !== '')
+                      ? 'border-black bg-black text-white hover:bg-neutral-800 cursor-pointer shadow-[3px_3px_0px_0px_#888888] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
+                      : 'border-neutral-300 bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                  }`}
+                >
+                  NỘP BÀI KIỂM TRA LỚP 5
+                </button>
+              ) : (
+                <div className="space-y-3">
+                  <div className={`p-4 rounded-none border-2 border-black text-center ${
+                    scoreCount === 5 ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'
+                  }`}>
+                    <span className="font-mono text-[9px] text-[#444444] uppercase block tracking-wider font-bold">KẾT QUẢ ĐẠT ĐƯỢC</span>
+                    <span className="font-mono font-bold text-lg text-black">{scoreCount} / 5 CÂU ĐÚNG</span>
+                    <p className="text-[10px] text-[#444444] mt-1 font-sans">
+                      {scoreCount === 5
+                        ? '"Em đã hoàn thành xuất sắc thử thách khoa học về vi khuẩn Lactic rồi đó!"'
+                        : '"Có một số từ khóa chưa đúng vị trí. Hãy thử lại để đạt kết quả tốt nhất nhé!"'}
+                    </p>
                   </div>
+                  <button
+                    onClick={resetQuiz}
+                    className="w-full py-2.5 border border-black bg-white text-black text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#F2F2F2] transition-colors cursor-pointer rounded-none"
+                  >
+                    THỬ LẠI TỪ ĐẦU
+                  </button>
                 </div>
-                
-                {/* Caption */}
-                <div className="mt-3 px-2 pb-1 text-center">
-                  <p className="text-xs text-[#444444] leading-relaxed">
-                    <strong>Từ trái sang:</strong> Nhóm 1 (Đặc sánh mịn) — Nhóm 2 (Lỏng như nước) — Nhóm 3 (Bị tách nước, chua gắt).
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
 
           </div>
+
         </div>
 
       </div>
