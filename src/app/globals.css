@@ -5,6 +5,18 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+
+  /* Custom Science Theme Colors */
+  --color-science-base: #22c55e;
+  --color-science-dark: #14532d;
+  --color-science-light: #dcfce7;
+  --color-science-bg: #f0fdf4;
+  --color-science-accent: #facc15;
+}
+
+body {
+  color: var(--color-science-dark);
+  background-color: var(--color-science-bg);
 }
 
 @keyframes fadeIn {

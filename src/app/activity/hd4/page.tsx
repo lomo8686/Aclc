@@ -50,7 +50,7 @@ export default function ActivityFour() {
   };
 
   return (
-    <section id="hd4" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#D9D9D9]">
+    <section id="hd4" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-science-dark/20">
       <div className="max-w-7xl mx-auto">
         
         {/* Step Header */}
@@ -58,13 +58,13 @@ export default function ActivityFour() {
           <div className="flex items-center space-x-3 mb-2">
             <span className="font-mono text-5xl md:text-6xl font-bold text-[#D9D9D9] leading-none">04</span>
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#444444] block">Bước 4: Giải quyết vấn đề thực tế (Kolb - Vận dụng)</span>
-              <h2 className="font-display font-medium text-2xl md:text-3xl text-[#111111] tracking-tight">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-science-dark/70 block">Bước 4: Giải quyết vấn đề thực tế (Kolb - Vận dụng)</span>
+              <h2 className="font-display font-medium text-2xl md:text-3xl text-science-dark tracking-tight">
                 HĐ4 — Thử tài giải cứu mẻ sữa chua hỏng
               </h2>
             </div>
           </div>
-          <p className="text-sm md:text-base text-[#444444] max-w-3xl leading-relaxed mt-2">
+          <p className="text-sm md:text-base text-science-dark/70 max-w-3xl leading-relaxed mt-2">
             Học đi đôi với hành! Các em hãy cùng chia nhóm thảo luận để giải cứu một mẻ sữa chua bị bỏ quên không ủ ấm. Bật đồng hồ đếm ngược 5 phút và bắt đầu tranh luận nhanh nhất nào.
           </p>
         </div>
@@ -74,27 +74,27 @@ export default function ActivityFour() {
           
           {/* Left Column: Problem Case Card (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white border border-[#D9D9D9] rounded-none p-6 sm:p-8 space-y-6 shadow-none">
+            <div className="bg-white border border-science-dark/20 rounded-none p-6 sm:p-8 space-y-6 shadow-none">
               
               {/* Scenario Label Badge */}
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center px-2.5 py-1 rounded-none bg-black text-white text-[9px] font-mono font-bold uppercase tracking-wider">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-none bg-science-base text-white text-[9px] font-mono font-bold uppercase tracking-wider">
                   🔥 TÌNH HUỐNG THẢO LUẬN LỚP 5
                 </span>
-                <span className="text-[10px] text-[#444444] font-mono uppercase tracking-wider font-bold">Điểm số: +50đ</span>
+                <span className="text-[10px] text-science-dark/70 font-mono uppercase tracking-wider font-bold">Điểm số: +50đ</span>
               </div>
 
               {/* The Case content */}
               <div className="space-y-4">
-                <h3 className="font-sans font-bold text-lg md:text-xl text-[#111111] leading-snug">
+                <h3 className="font-sans font-bold text-lg md:text-xl text-science-dark leading-snug">
                   "Bài toán giải cứu mẻ Sữa Chua bị quên ủ ấm lúc ban đầu" 🥛🔍
                 </h3>
                 
-                <p className="text-xs text-[#444444] leading-relaxed">
+                <p className="text-xs text-science-dark/70 leading-relaxed">
                   Một bạn học sinh hăm hở chuẩn bị nguyên vật liệu rất chu đáo, khuấy miền sữa ấm đều một chiều và dập hũ kín kẽ. Tuy nhiên, do vội đá bóng cùng các bạn học, bạn đã <strong>bỏ quên không rót nước nóng xung quanh</strong> và <strong>không bọc kín thùng xốp</strong> giữ ấm suốt 4 tiếng đầu tiên.
                 </p>
 
-                <div className="p-5 bg-[#FAFAFA] border-2 border-black rounded-none text-xs leading-relaxed text-black space-y-1.5">
+                <div className="p-5 bg-science-bg border-2 border-science-dark rounded-none text-xs leading-relaxed text-science-dark space-y-1.5">
                   <div className="font-mono font-bold uppercase tracking-wide">💬 Trọng tâm thảo luận nhóm:</div>
                   <ul className="list-disc list-inside space-y-1">
                     <li>Điều hại gì sẽ xảy ra với lượng trực khuẩn mồi và tính đông tụ của hũ?</li>
@@ -112,8 +112,8 @@ export default function ActivityFour() {
                   }}
                   className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-none text-[10px] font-mono font-bold uppercase tracking-widest transition-all cursor-pointer ${
                     showHint 
-                      ? 'bg-black text-white border border-black' 
-                      : 'bg-white text-black border border-black hover:bg-neutral-100'
+                      ? 'bg-science-base text-white border border-science-dark' 
+                      : 'bg-white text-science-dark border border-science-dark hover:bg-neutral-100'
                   }`}
                 >
                   <HelpCircle className="w-4 h-4" />
@@ -127,8 +127,8 @@ export default function ActivityFour() {
                   }}
                   className={`inline-flex items-center space-x-2 px-4 py-2.5 rounded-none text-[10px] font-mono font-bold uppercase tracking-widest transition-all cursor-pointer ${
                     showAnswer 
-                      ? 'bg-black text-white border border-black' 
-                      : 'bg-black text-white hover:bg-neutral-800'
+                      ? 'bg-science-base text-white border border-science-dark' 
+                      : 'bg-science-base text-white hover:bg-neutral-800'
                   }`}
                 >
                   {showAnswer ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -145,21 +145,21 @@ export default function ActivityFour() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-5 rounded-none bg-[#FAFAFA] border border-black text-xs space-y-2.5">
-                      <h4 className="font-mono font-bold text-black uppercase tracking-wider flex items-center text-[10px]">
-                        <BookOpen className="w-4 h-4 mr-1.5 text-black" /> GỢI Ý TƯ DUY CHO NHÓM HỌC SINH:
+                    <div className="p-5 rounded-none bg-science-bg border border-science-dark text-xs space-y-2.5">
+                      <h4 className="font-mono font-bold text-science-dark uppercase tracking-wider flex items-center text-[10px]">
+                        <BookOpen className="w-4 h-4 mr-1.5 text-science-dark" /> GỢI Ý TƯ DUY CHO NHÓM HỌC SINH:
                       </h4>
-                      <ul className="list-none space-y-2 text-[#444444] text-[11px]">
+                      <ul className="list-none space-y-2 text-science-dark/70 text-[11px]">
                         <li className="flex items-start">
-                          <span className="text-[#111111] font-mono mr-1.5 font-bold">1.</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">1.</span>
                           <span><strong>Nhiệt độ tối ưu:</strong> Hãy nghĩ về nhiệt độ ưa thích của trực khuẩn Lactic để lên men cực đại. Khoảng nhiệt độ ủ ấm 40°C - 45°C có vai trò gì?</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-[#111111] font-mono mr-1.5 font-bold">2.</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">2.</span>
                           <span><strong>Hoạt động ngủ đông:</strong> Nhiệt độ phòng bình thường lỏng lẽo sẽ làm vi sinh béo ngậy làm chậm rớt tốc độ sinh Axit Lactic ra sao?</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-[#111111] font-mono mr-1.5 font-bold">3.</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">3.</span>
                           <span><strong>Ủ ấm bù:</strong> Nếu sưởi ấm nóng gấp lại về sau, lượng vi khuẩn có thể "bừng tỉnh" hoạt bát trở lại không?</span>
                         </li>
                       </ul>
@@ -177,7 +177,7 @@ export default function ActivityFour() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-5 rounded-none bg-[#111111] text-white border border-black text-xs space-y-3.5">
+                    <div className="p-5 rounded-none bg-[#111111] text-white border border-science-dark text-xs space-y-3.5">
                       <h4 className="font-mono font-bold uppercase tracking-widest flex items-center text-[10px] text-white">
                         ⚡ KẾT LUẬN TIÊU CHUẨN KHOA HỌC:
                       </h4>
@@ -201,19 +201,19 @@ export default function ActivityFour() {
           </div>
 
           {/* Right Column: Classroom Discussion Countdown Timer (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-[#D9D9D9] rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-8">
+          <div className="lg:col-span-5 bg-white border border-science-dark/20 rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-8">
             
             {/* Timer Screen Visual container */}
             <div className="space-y-4">
-              <div className="border-b border-[#D9D9D9] pb-3 text-center">
-                <h3 className="font-mono text-xs font-bold text-[#111111] uppercase tracking-widest">
+              <div className="border-b border-science-dark/20 pb-3 text-center">
+                <h3 className="font-mono text-xs font-bold text-science-dark uppercase tracking-widest">
                   ⏰ ĐỒNG HỒ ĐẾM NGƯỢC THẢO LUẬN
                 </h3>
-                <p className="text-[10px] text-[#444444] mt-1">Canh giờ thảo luận của các nhóm thi đua với nhau:</p>
+                <p className="text-[10px] text-science-dark/70 mt-1">Canh giờ thảo luận của các nhóm thi đua với nhau:</p>
               </div>
 
               {/* Huge Timer Screen look */}
-              <div className="p-8 bg-black text-white rounded-none border border-black flex flex-col items-center justify-center space-y-3 relative overflow-hidden">
+              <div className="p-8 bg-science-base text-white rounded-none border border-science-dark flex flex-col items-center justify-center space-y-3 relative overflow-hidden">
                 
                 {/* Simulated Digital LED screen backdrop grids */}
                 <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#FFF_1px,transparent_1px)] [background-size:12px_12px]" />
@@ -242,7 +242,7 @@ export default function ActivityFour() {
                   className={`py-3 px-4 rounded-none text-[10px] font-mono font-bold uppercase tracking-widest flex items-center justify-center space-x-2 transition-all cursor-pointer ${
                     timerRunning
                       ? 'bg-[#B00020] text-white'
-                      : 'bg-black text-white hover:bg-neutral-800'
+                      : 'bg-science-base text-white hover:bg-neutral-800'
                   }`}
                 >
                   {timerRunning ? (
@@ -260,7 +260,7 @@ export default function ActivityFour() {
 
                 <button
                   onClick={handleReset}
-                  className="py-3 px-4 bg-white text-black border border-black text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#F2F2F2] flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                  className="py-3 px-4 bg-white text-science-dark border border-science-dark text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#F2F2F2] flex items-center justify-center space-x-2 transition-all cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>ĐẶT LẠI 5:00</span>
@@ -269,12 +269,12 @@ export default function ActivityFour() {
             </div>
 
             {/* Scientific hint summary */}
-            <div className="p-5 bg-white border border-black rounded-none text-xs space-y-2.5">
-              <div className="flex items-center space-x-2 text-black">
-                <AlertCircle className="w-4 h-4 text-black shrink-0" />
+            <div className="p-5 bg-white border border-science-dark rounded-none text-xs space-y-2.5">
+              <div className="flex items-center space-x-2 text-science-dark">
+                <AlertCircle className="w-4 h-4 text-science-dark shrink-0" />
                 <span className="font-mono font-bold text-[10px] uppercase tracking-widest">PHƯƠNG PHÁP CHỦ ĐỘNG KOLB</span>
               </div>
-              <p className="text-[11px] text-[#444444] leading-relaxed font-sans">
+              <p className="text-[11px] text-science-dark/70 leading-relaxed font-sans">
                 Hoạt động thảo luận tranh luận tăng trưởng tối đa năng lực <strong>Vận Dụng Trực Tiếp</strong> trong đời sống. Học sinh tự lý giải, tháo gỡ điểm nóng sữa chua hỏng để biến lý thuyết khô khan thành bài học vô cùng dồi dào kinh nghiệm cá nhân lý thú!
               </p>
             </div>

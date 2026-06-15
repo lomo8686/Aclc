@@ -47,15 +47,15 @@ export default function ActivityTwo() {
   const scorePercent = Math.round((currentTotal / totalPossible) * 100);
 
   const getRubricVerdict = (percent: number) => {
-    if (percent >= 90) return { title: 'HOÀN HẢO MỸ MÃN 🏆', msg: 'Một mẻ vi khuẩn Lactic phát triển tuyệt vời, sữa dẻo thơm, đặc sánh chín sữa mịn!', color: 'text-white bg-[#111111] border-black' };
-    if (percent >= 70) return { title: 'ĐẠT CHUẨN TỐT 👍', msg: 'Sữa đông ấm miệng, chua ngọt tròn vị, nhật trình viết tay khá đầy đủ. Cố gắng phát huy con nhé!', color: 'text-black bg-white border-2 border-black' };
+    if (percent >= 90) return { title: 'HOÀN HẢO MỸ MÃN 🏆', msg: 'Một mẻ vi khuẩn Lactic phát triển tuyệt vời, sữa dẻo thơm, đặc sánh chín sữa mịn!', color: 'text-white bg-[#111111] border-science-dark' };
+    if (percent >= 70) return { title: 'ĐẠT CHUẨN TỐT 👍', msg: 'Sữa đông ấm miệng, chua ngọt tròn vị, nhật trình viết tay khá đầy đủ. Cố gắng phát huy con nhé!', color: 'text-science-dark bg-white border-2 border-science-dark' };
     return { title: 'CẦN CẢI THIỆN THÊM 🧪', msg: 'Sữa chua có thể chưa đủ ẩm hoặc chưa chuẩn thời gian ủ mồi. Em hãy mở HĐ4 tham khảo mẹo cứu nhé!', color: 'text-white bg-[#B00020] border-[#B00020]' };
   };
 
   const verdict = getRubricVerdict(scorePercent);
 
   return (
-    <section id="hd3" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#D9D9D9]">
+    <section id="hd3" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-science-dark/20">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Title */}
@@ -63,13 +63,13 @@ export default function ActivityTwo() {
           <div className="flex items-center space-x-3 mb-2">
             <span className="font-mono text-5xl md:text-6xl font-bold text-[#D9D9D9] leading-none">03</span>
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#444444] block">Bước 3: Cùng xem lại & Đánh giá (Kolb - Phản ngẫm)</span>
-              <h2 className="font-display font-medium text-2xl md:text-3xl text-[#111111] tracking-tight">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-science-dark/70 block">Bước 3: Cùng xem lại & Đánh giá (Kolb - Phản ngẫm)</span>
+              <h2 className="font-display font-medium text-2xl md:text-3xl text-science-dark tracking-tight">
                 HĐ3 — Cùng chấm điểm Rubric & Thảo luận
               </h2>
             </div>
           </div>
-          <p className="text-sm md:text-base text-[#444444] max-w-3xl leading-relaxed mt-2">
+          <p className="text-sm md:text-base text-science-dark/70 max-w-3xl leading-relaxed mt-2">
             Học sinh mang sản phẩm sữa chua tự làm tới lớp. Thầy cô và cả lớp đóng vai những chuyên gia ẩm thực nhí để chấm điểm chéo các hũ sữa chua và cùng trả lời những câu hỏi khoa học thú vị nhé.
           </p>
         </div>
@@ -78,18 +78,18 @@ export default function ActivityTwo() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           
           {/* Interactive Star Rubric Selection Panel */}
-          <div className="p-6 sm:p-8 bg-[#FAFAFA] border border-[#D9D9D9] rounded-none space-y-6">
-            <div className="flex items-center justify-between border-b border-[#D9D9D9] pb-4">
+          <div className="p-6 sm:p-8 bg-science-bg border border-science-dark/20 rounded-none space-y-6">
+            <div className="flex items-center justify-between border-b border-science-dark/20 pb-4">
               <div>
-                <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-[#111111] flex items-center space-x-2">
-                  <Award className="w-5 h-5 text-black" />
+                <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-science-dark flex items-center space-x-2">
+                  <Award className="w-5 h-5 text-science-dark" />
                   <span>Trình Chiếu Rubric Chữ Vàng</span>
                 </h3>
-                <p className="text-[11px] text-[#444444] mt-1">Click chấm sao chéo hũ của nhóm bạn em nhé!</p>
+                <p className="text-[11px] text-science-dark/70 mt-1">Click chấm sao chéo hũ của nhóm bạn em nhé!</p>
               </div>
               <div className="text-right">
-                <span className="font-mono text-[9px] text-[#444444] uppercase block tracking-wider font-bold">Điểm số</span>
-                <span className="font-mono text-xl font-bold text-black">{currentTotal} / {totalPossible}</span>
+                <span className="font-mono text-[9px] text-science-dark/70 uppercase block tracking-wider font-bold">Điểm số</span>
+                <span className="font-mono text-xl font-bold text-science-dark">{currentTotal} / {totalPossible}</span>
               </div>
             </div>
 
@@ -98,12 +98,12 @@ export default function ActivityTwo() {
               {RUBRIC_CRITERIA.map((crit) => {
                 const currentRating = ratings[crit.id] || 0;
                 return (
-                  <div key={crit.id} className="space-y-1.5 p-4 rounded-none bg-white border border-[#D9D9D9] hover:border-black transition-all">
+                  <div key={crit.id} className="space-y-1.5 p-4 rounded-none bg-white border border-science-dark/20 hover:border-science-dark transition-all">
                     <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-black font-mono uppercase tracking-wide">{crit.label}</span>
-                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#444444]">Bậc {currentRating}/5</span>
+                      <span className="text-xs font-bold text-science-dark font-mono uppercase tracking-wide">{crit.label}</span>
+                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-science-dark/70">Bậc {currentRating}/5</span>
                     </div>
-                    <p className="text-xs text-[#444444] leading-relaxed pr-6">{crit.description}</p>
+                    <p className="text-xs text-science-dark/70 leading-relaxed pr-6">{crit.description}</p>
                     
                     {/* Stars element */}
                     <div className="flex space-x-1 pt-1.5">
@@ -117,8 +117,8 @@ export default function ActivityTwo() {
                           <Star 
                             className={`w-5 h-5 transition-colors ${
                               star <= currentRating 
-                                ? 'fill-black text-black' 
-                                : 'text-[#D9D9D9] hover:text-black'
+                                ? 'fill-black text-science-dark' 
+                                : 'text-[#D9D9D9] hover:text-science-dark'
                             }`}
                           />
                         </button>
@@ -145,12 +145,12 @@ export default function ActivityTwo() {
             {/* Reflection Flashcards */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <BrainCircuit className="w-5 h-5 text-black" />
-                <h3 className="font-mono font-bold text-xs tracking-widest text-[#111111] uppercase">
+                <BrainCircuit className="w-5 h-5 text-science-dark" />
+                <h3 className="font-mono font-bold text-xs tracking-widest text-science-dark uppercase">
                   GÓC ÔN TẬP PHẢN NGẪM SÂU
                 </h3>
               </div>
-              <p className="text-xs text-[#444444]">Các em hãy bấm vào câu hỏi dưới đây xem trả lời khoa học nha!</p>
+              <p className="text-xs text-science-dark/70">Các em hãy bấm vào câu hỏi dưới đây xem trả lời khoa học nha!</p>
               
               <div className="space-y-3">
                 {reflections.map((ref, idx) => {
@@ -158,22 +158,22 @@ export default function ActivityTwo() {
                   return (
                     <div 
                       key={idx} 
-                      className="border border-[#D9D9D9] rounded-none overflow-hidden bg-white transition-all duration-200"
+                      className="border border-science-dark/20 rounded-none overflow-hidden bg-white transition-all duration-200"
                     >
                       <button
                         onClick={() => setActiveQuestion(isOpen ? null : idx)}
-                        className="w-full text-left p-4 focus:outline-none flex justify-between items-center bg-[#FAFAFA] hover:bg-[#F2F2F2] transition-colors"
+                        className="w-full text-left p-4 focus:outline-none flex justify-between items-center bg-science-bg hover:bg-[#F2F2F2] transition-colors"
                       >
-                        <span className="text-xs font-mono font-bold text-black uppercase tracking-wider leading-snug">
+                        <span className="text-xs font-mono font-bold text-science-dark uppercase tracking-wider leading-snug">
                           0{idx + 1}. {ref.q}
                         </span>
-                        <span className="text-[10px] font-mono font-bold text-black shrink-0 ml-4">
+                        <span className="text-[10px] font-mono font-bold text-science-dark shrink-0 ml-4">
                           {isOpen ? '[- THU GỌN]' : '[+ XEM TỰ LUẬN]'}
                         </span>
                       </button>
 
                       {isOpen && (
-                        <div className="p-4 border-t border-[#D9D9D9] bg-white text-xs text-[#444444] leading-relaxed font-sans">
+                        <div className="p-4 border-t border-science-dark/20 bg-white text-xs text-science-dark/70 leading-relaxed font-sans">
                           {ref.a}
                         </div>
                       )}
@@ -184,17 +184,17 @@ export default function ActivityTwo() {
             </div>
 
             {/* Comparison of classroom teams - Image Showcase */}
-            <div className="bg-[#FAFAFA] border border-[#D9D9D9] rounded-none p-6 space-y-4">
-              <div className="flex items-center space-x-2 border-b border-[#D9D9D9] pb-3">
-                <Table className="w-4 h-4 text-black" />
-                <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-black">
+            <div className="bg-science-bg border border-science-dark/20 rounded-none p-6 space-y-4">
+              <div className="flex items-center space-x-2 border-b border-science-dark/20 pb-3">
+                <Table className="w-4 h-4 text-science-dark" />
+                <h4 className="font-mono font-bold text-xs uppercase tracking-widest text-science-dark">
                   Hình Ảnh Thực Nghiệm 3 Nhóm Mẫu
                 </h4>
               </div>
               
-              <div className="bg-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_#000000]">
+              <div className="bg-white border-2 border-science-dark p-2 shadow-[4px_4px_0px_0px_var(--color-science-dark)]">
                 {/* Image Container */}
-                <div className="aspect-video relative overflow-hidden bg-[#F2F2F2] border border-[#D9D9D9] group cursor-pointer">
+                <div className="aspect-video relative overflow-hidden bg-[#F2F2F2] border border-science-dark/20 group cursor-pointer">
                   <img 
                     src="/models/yogurt_comparison.png" 
                     alt="So sánh 3 trạng thái của sữa chua: Đặc hoàn hảo, Lỏng do thiếu men, và Tách nước do quá nóng"
@@ -202,7 +202,7 @@ export default function ActivityTwo() {
                   />
                   
                   {/* Overlay text on hover */}
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 bg-science-base/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-white font-mono text-xs font-bold uppercase tracking-widest border border-white px-4 py-2">
                       Phóng to ảnh
                     </span>
@@ -211,7 +211,7 @@ export default function ActivityTwo() {
                 
                 {/* Caption */}
                 <div className="mt-3 px-2 pb-1 text-center">
-                  <p className="text-xs text-[#444444] leading-relaxed">
+                  <p className="text-xs text-science-dark/70 leading-relaxed">
                     <strong>Từ trái sang:</strong> Nhóm 1 (Đặc sánh mịn) — Nhóm 2 (Lỏng như nước) — Nhóm 3 (Bị tách nước, chua gắt).
                   </p>
                 </div>

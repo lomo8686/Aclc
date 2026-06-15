@@ -180,11 +180,11 @@ export default function ActivityThree() {
       }
     } else {
       if (isActive) {
-        btnClass += 'border-black bg-yellow-300 text-black shadow-[1px_1px_0px_0px_#000000] scale-105';
+        btnClass += 'border-science-dark bg-yellow-300 text-science-dark shadow-[1px_1px_0px_0px_var(--color-science-dark)] scale-105';
       } else if (isFilled) {
-        btnClass += 'border-black bg-[#FAFAFA] text-black hover:bg-neutral-100 cursor-pointer';
+        btnClass += 'border-science-dark bg-science-bg text-science-dark hover:bg-neutral-100 cursor-pointer';
       } else {
-        btnClass += 'border-dashed border-neutral-400 bg-white text-neutral-400 hover:border-black hover:text-black cursor-pointer';
+        btnClass += 'border-dashed border-neutral-400 bg-white text-neutral-400 hover:border-science-dark hover:text-science-dark cursor-pointer';
       }
     }
 
@@ -216,7 +216,7 @@ export default function ActivityThree() {
   };
 
   return (
-    <section id="hd2" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAFA] border-b border-[#D9D9D9]">
+    <section id="hd2" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-science-bg border-b border-science-dark/20">
       <div className="max-w-7xl mx-auto">
         
         {/* Step Header */}
@@ -224,13 +224,13 @@ export default function ActivityThree() {
           <div className="flex items-center space-x-3 mb-2">
             <span className="font-mono text-5xl md:text-6xl font-bold text-[#D9D9D9] leading-none">02</span>
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#444444] block">Bước 2: Khám phá thế giới vi sinh (Kolb - Khái niệm hóa)</span>
-              <h2 className="font-display font-medium text-2xl md:text-3xl text-[#111111] tracking-tight">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-science-dark/70 block">Bước 2: Khám phá thế giới vi sinh (Kolb - Khái niệm hóa)</span>
+              <h2 className="font-display font-medium text-2xl md:text-3xl text-science-dark tracking-tight">
                 HĐ2 — Quan sát vi sinh vật dưới kính hiển vi ảo
               </h2>
             </div>
           </div>
-          <p className="text-sm md:text-base text-[#444444] max-w-3xl leading-relaxed mt-2">
+          <p className="text-sm md:text-base text-science-dark/70 max-w-3xl leading-relaxed mt-2">
             Chào mừng các em đến với phòng thí nghiệm sinh học lớp 5! Cùng tự tay xoay núm điều chỉnh kính hiển vi ảo để nhìn rõ nét cấu tạo vi khuẩn Lactic, và hoàn thành trò chơi điền từ vào ô trống củng cố bài học nhé.
           </p>
         </div>
@@ -244,14 +244,14 @@ export default function ActivityThree() {
             {/* 3D Model Viewer — replaces the old SVG microscope */}
             <div
               ref={modelContainerRef}
-              className="bg-white border-2 border-black overflow-hidden flex flex-col"
+              className="bg-white border-2 border-science-dark overflow-hidden flex flex-col"
               style={{
                 boxShadow: isModelFullscreen ? 'none' : '6px 6px 0px 0px #000000',
                 height: isModelFullscreen ? '100vh' : 'auto',
               }}
             >
               {/* Top bar */}
-              <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+              <div className="bg-science-base text-white px-5 py-3 flex items-center justify-between">
                 <h3 className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
                   <span className="inline-block w-2 h-2 bg-emerald-400" />
                   Mô hình 3D — Vi khuẩn Lactobacillus
@@ -326,8 +326,8 @@ export default function ActivityThree() {
               </div>
 
               {/* Bottom info strip */}
-              <div className="border-t-2 border-black bg-white px-5 py-3 flex items-center justify-between">
-                <span className="font-mono text-[10px] font-bold text-[#888888] uppercase tracking-widest">
+              <div className="border-t-2 border-science-dark bg-white px-5 py-3 flex items-center justify-between">
+                <span className="font-mono text-[10px] font-bold text-science-dark/60 uppercase tracking-widest">
                   🖱️ Xoay · Zoom · Kéo để khám phá
                 </span>
                 <span className="font-mono text-[10px] text-[#CCCCCC]">
@@ -337,9 +337,9 @@ export default function ActivityThree() {
             </div>
 
             {/* Mind Map Block representation */}
-            <div className="bg-white border border-[#D9D9D9] rounded-none p-6">
-              <h3 className="font-mono font-bold text-xs text-[#111111] uppercase tracking-widest mb-4 flex items-center space-x-2">
-                <Share2 className="w-4 h-4 text-black" />
+            <div className="bg-white border border-science-dark/20 rounded-none p-6">
+              <h3 className="font-mono font-bold text-xs text-science-dark uppercase tracking-widest mb-4 flex items-center space-x-2">
+                <Share2 className="w-4 h-4 text-science-dark" />
                 <span>SƠ ĐỒ TƯ DUY KHÁI QUÁT HÓA 🗺️</span>
               </h3>
               
@@ -347,7 +347,7 @@ export default function ActivityThree() {
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                 
                 {/* Node Center */}
-                <div className="sm:col-span-4 p-4 bg-black text-white rounded-none border border-black text-center">
+                <div className="sm:col-span-4 p-4 bg-science-base text-white rounded-none border border-science-dark text-center">
                   <span className="font-mono font-bold text-xs block uppercase tracking-wider">VI KHUẨN LACTIC</span>
                   <span className="font-mono text-[9px] uppercase tracking-widest opacity-80 mt-1 block">(Lợi Khuẩn Số Một)</span>
                 </div>
@@ -365,11 +365,11 @@ export default function ActivityThree() {
                     { label: '🥛 Sữa đông dẻo', desc: 'Làm đông tụ protein trong môi trường nhiệt độ thích hợp.' },
                     { label: '🥒 Ứng dụng dưa muối', desc: 'Khống chế vi sinh vật gây thối và làm giòn dưa cải.' }
                   ].map((node, idx) => (
-                    <div key={idx} className="p-2.5 bg-[#FAFAFA] border border-[#D9D9D9] rounded-none text-left hover:border-black transition-colors flex items-start space-x-2.5">
-                      <div className="mt-1.5 w-1.5 h-1.5 rounded-none bg-black" />
+                    <div key={idx} className="p-2.5 bg-science-bg border border-science-dark/20 rounded-none text-left hover:border-science-dark transition-colors flex items-start space-x-2.5">
+                      <div className="mt-1.5 w-1.5 h-1.5 rounded-none bg-science-base" />
                       <div>
-                        <strong className="text-xs font-mono uppercase tracking-wide text-black block">{node.label}</strong>
-                        <span className="text-[10px] text-[#444444] leading-snug">{node.desc}</span>
+                        <strong className="text-xs font-mono uppercase tracking-wide text-science-dark block">{node.label}</strong>
+                        <span className="text-[10px] text-science-dark/70 leading-snug">{node.desc}</span>
                       </div>
                     </div>
                   ))}
@@ -381,14 +381,14 @@ export default function ActivityThree() {
           </div>
 
           {/* Column Right: Interactive blanks game (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-[#D9D9D9] rounded-none p-6 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-white border border-science-dark/20 rounded-none p-6 flex flex-col justify-between">
             <div className="space-y-4">
-              <div className="border-b border-[#D9D9D9] pb-3">
-                <h3 className="font-mono font-bold text-xs uppercase tracking-widest text-[#111111] flex items-center space-x-2">
-                  <Award className="w-5 h-5 text-black" />
+              <div className="border-b border-science-dark/20 pb-3">
+                <h3 className="font-mono font-bold text-xs uppercase tracking-widest text-science-dark flex items-center space-x-2">
+                  <Award className="w-5 h-5 text-science-dark" />
                   <span>CỦNG CỐ KIẾN THỨC BẰNG MINIGAME</span>
                 </h3>
-                <p className="text-[11px] text-[#444444] mt-1 pr-4">
+                <p className="text-[11px] text-science-dark/70 mt-1 pr-4">
                   Thử tài lý thuyết bài học Lớp 5. Điền từ thích hợp vào từng chỗ trống:
                 </p>
               </div>
@@ -398,7 +398,7 @@ export default function ActivityThree() {
                 {QUIZ_QUESTIONS.map((q) => {
                   return (
                     <div key={q.id} className="text-xs space-y-1.5 border-b border-[#F2F2F2] pb-3 last:border-b-0 last:pb-0">
-                      <span className="font-mono text-[9px] text-[#888888] block font-bold tracking-wider">CÂU HỎI {q.id}</span>
+                      <span className="font-mono text-[9px] text-science-dark/60 block font-bold tracking-wider">CÂU HỎI {q.id}</span>
                       <div className="text-neutral-800 leading-relaxed font-sans text-xs">
                         {q.sentenceBefore}
                         {renderBlank(q.id)}
@@ -412,7 +412,7 @@ export default function ActivityThree() {
 
             {/* Selection Options panel */}
             {!quizSubmitted && (
-              <div className="space-y-3 pt-4 border-t border-[#D9D9D9] mt-4">
+              <div className="space-y-3 pt-4 border-t border-science-dark/20 mt-4">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[9px] font-bold text-neutral-500 uppercase tracking-widest">
                     {activeBlank ? `👉 Đang chọn cho ô (${activeBlank})` : 'Chọn một ô trống ở trên'}
@@ -434,7 +434,7 @@ export default function ActivityThree() {
                         className={`px-3 py-1.5 border-2 text-[11px] font-mono font-bold uppercase transition-all rounded-none cursor-pointer ${
                           used
                             ? 'border-neutral-200 bg-neutral-100 text-neutral-300 cursor-not-allowed line-through'
-                            : 'border-black bg-white text-black hover:bg-black hover:text-white shadow-[2px_2px_0px_0px_#000000] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
+                            : 'border-science-dark bg-white text-science-dark hover:bg-science-base hover:text-white shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
                         }`}
                       >
                         {opt}
@@ -446,14 +446,14 @@ export default function ActivityThree() {
             )}
 
             {/* Quiz interactions control container */}
-            <div className="pt-6 border-t border-[#D9D9D9] mt-6 space-y-4">
+            <div className="pt-6 border-t border-science-dark/20 mt-6 space-y-4">
               {!quizSubmitted ? (
                 <button
                   onClick={checkQuizAnswers}
                   disabled={!Object.values(selectedAnswers).every(val => val !== '')}
                   className={`w-full py-3 border-2 font-mono font-bold text-xs uppercase tracking-widest transition-all rounded-none ${
                     Object.values(selectedAnswers).every(val => val !== '')
-                      ? 'border-black bg-black text-white hover:bg-neutral-800 cursor-pointer shadow-[3px_3px_0px_0px_#888888] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
+                      ? 'border-science-dark bg-science-base text-white hover:bg-neutral-800 cursor-pointer shadow-[3px_3px_0px_0px_#888888] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]'
                       : 'border-neutral-300 bg-neutral-100 text-neutral-400 cursor-not-allowed'
                   }`}
                 >
@@ -461,12 +461,12 @@ export default function ActivityThree() {
                 </button>
               ) : (
                 <div className="space-y-3">
-                  <div className={`p-4 rounded-none border-2 border-black text-center ${
+                  <div className={`p-4 rounded-none border-2 border-science-dark text-center ${
                     scoreCount === 5 ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'
                   }`}>
-                    <span className="font-mono text-[9px] text-[#444444] uppercase block tracking-wider font-bold">KẾT QUẢ ĐẠT ĐƯỢC</span>
-                    <span className="font-mono font-bold text-lg text-black">{scoreCount} / 5 CÂU ĐÚNG</span>
-                    <p className="text-[10px] text-[#444444] mt-1 font-sans">
+                    <span className="font-mono text-[9px] text-science-dark/70 uppercase block tracking-wider font-bold">KẾT QUẢ ĐẠT ĐƯỢC</span>
+                    <span className="font-mono font-bold text-lg text-science-dark">{scoreCount} / 5 CÂU ĐÚNG</span>
+                    <p className="text-[10px] text-science-dark/70 mt-1 font-sans">
                       {scoreCount === 5
                         ? '"Em đã hoàn thành xuất sắc thử thách khoa học về vi khuẩn Lactic rồi đó!"'
                         : '"Có một số từ khóa chưa đúng vị trí. Hãy thử lại để đạt kết quả tốt nhất nhé!"'}
@@ -474,7 +474,7 @@ export default function ActivityThree() {
                   </div>
                   <button
                     onClick={resetQuiz}
-                    className="w-full py-2.5 border border-black bg-white text-black text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#F2F2F2] transition-colors cursor-pointer rounded-none"
+                    className="w-full py-2.5 border border-science-dark bg-white text-science-dark text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#F2F2F2] transition-colors cursor-pointer rounded-none"
                   >
                     THỬ LẠI TỪ ĐẦU
                   </button>

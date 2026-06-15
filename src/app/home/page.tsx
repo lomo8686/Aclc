@@ -167,22 +167,22 @@ export default function HomePage() {
   if (loading) return null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] font-sans text-[#111111] antialiased selection:bg-black selection:text-white">
+    <div className="min-h-screen flex flex-col bg-science-bg font-sans text-science-dark antialiased selection:bg-science-accent selection:text-science-dark">
       {/* ── Compact Header ── */}
-      <header className="shrink-0 border-b border-[#D9D9D9] bg-white/95 backdrop-blur-md z-10 sticky top-0">
+      <header className="shrink-0 border-b border-science-dark/20 bg-white/95 backdrop-blur-md z-10 sticky top-0">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <span className="font-display font-bold text-lg tracking-tighter text-black">
+            <span className="font-display font-bold text-lg tracking-tighter text-science-dark">
               SCIENCE.05
             </span>
-            <div className="hidden sm:block h-4 w-px bg-[#D9D9D9]" />
+            <div className="hidden sm:block h-4 w-px bg-science-dark/20" />
             <span className="hidden sm:block font-mono text-[9px] text-[#444444] tracking-widest uppercase">
               Chuyên Đề Vi Khuẩn Lactic
             </span>
           </div>
 
           <div className="flex items-center space-x-3">
-            <span className="font-mono text-[9px] px-3 py-1 border border-black rounded-full font-bold tracking-widest bg-white uppercase">
+            <span className="font-mono text-[9px] px-3 py-1 border border-science-dark rounded-full font-bold tracking-widest bg-white uppercase text-science-dark">
               KHOA HỌC LỚP 5
             </span>
             <button
@@ -198,35 +198,35 @@ export default function HomePage() {
       {/* ── Main Area ── */}
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         {/* ── Portal Banner ── */}
-        <section className="bg-white border-2 border-black p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative" style={{ boxShadow: '8px 8px 0px 0px #000000' }}>
+        <section className="bg-white border-2 border-science-dark p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative" style={{ boxShadow: '8px 8px 0px 0px var(--color-science-dark)' }}>
           <div className="space-y-3 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start space-x-2">
-              <div className="p-1.5 bg-black text-white shrink-0">
+              <div className="p-1.5 bg-science-base text-white shrink-0">
                 <User className="w-4 h-4" />
               </div>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#555555] font-bold">
+              <span className="font-mono text-xs uppercase tracking-widest text-science-dark/60 font-bold">
                 CỔNG THÔNG TIN HỌC SINH
               </span>
             </div>
             
-            <h1 className="font-display font-black text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight leading-none text-black">
-              Chào mừng, <span className="underline decoration-black decoration-2 underline-offset-4">{studentName}</span>!
+            <h1 className="font-display font-black text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight leading-none text-science-dark">
+              Chào mừng, <span className="underline decoration-science-base decoration-4 underline-offset-4">{studentName}</span>!
             </h1>
-            <p className="text-xs sm:text-sm text-[#666666] max-w-xl">
+            <p className="text-xs sm:text-sm text-science-dark/80 max-w-xl">
               Chào mừng em đến với hành trình nghiên cứu khoa học thú vị về vi khuẩn Lactic. Hãy tham gia đầy đủ 5 chặng học tập dưới đây để tích lũy kiến thức thực tiễn và hoàn tất báo cáo khoa học của riêng mình nhé!
             </p>
           </div>
 
           {/* Progress dashboard circle/bar */}
-          <div className="w-full md:w-auto shrink-0 bg-[#FAFAFA] border border-[#D9D9D9] p-5 space-y-4 max-w-sm">
-            <div className="flex justify-between items-center text-[10px] font-mono font-bold text-[#444444]">
+          <div className="w-full md:w-auto shrink-0 bg-science-bg border border-science-dark/20 p-5 space-y-4 max-w-sm">
+            <div className="flex justify-between items-center text-[10px] font-mono font-bold text-science-dark/60">
               <span>TIẾN ĐỘ HÀNH TRÌNH</span>
-              <span className="text-black">{completedCount} / {totalStepsCount} CHẶNG ({percentage}%)</span>
+              <span className="text-science-dark">{completedCount} / {totalStepsCount} CHẶNG ({percentage}%)</span>
             </div>
 
-            <div className="w-full sm:w-64 bg-white h-3 border border-black overflow-hidden relative">
+            <div className="w-full sm:w-64 bg-white h-3 border border-science-dark overflow-hidden relative">
               <div
-                className="h-full bg-black transition-all duration-700 ease-out"
+                className="h-full bg-science-base transition-all duration-700 ease-out"
                 style={{ width: `${percentage}%` }}
               />
             </div>
@@ -241,9 +241,9 @@ export default function HomePage() {
 
         {/* ── Timeline Grid (Hành trình học tập) ── */}
         <section className="space-y-6">
-          <div className="flex items-center space-x-2 border-b border-[#D9D9D9] pb-4">
-            <Activity className="w-5 h-5 text-black" />
-            <h2 className="font-sans font-bold text-lg sm:text-xl uppercase tracking-tight text-black">
+          <div className="flex items-center space-x-2 border-b border-science-dark/20 pb-4">
+            <Activity className="w-5 h-5 text-science-dark" />
+            <h2 className="font-sans font-bold text-lg sm:text-xl uppercase tracking-tight text-science-dark">
               HÀNH TRÌNH HỌC TẬP (5 BƯỚC KHÉP KÍN)
             </h2>
           </div>
@@ -259,13 +259,13 @@ export default function HomePage() {
               const lockedPaths = ['/activity/hd2', '/activity/hd3', '/activity/hd4'];
               const isLocked = lockedPaths.includes(item.path) && !isTeacher;
 
-              let cardBorderClass = 'border-[#D9D9D9] hover:border-black';
+              let cardBorderClass = 'border-science-dark/20 hover:border-science-dark';
               let shadowClass = '';
-              let cursorClass = 'cursor-pointer hover:shadow-[4px_4px_0px_0px_#000000]';
+              let cursorClass = 'cursor-pointer hover:shadow-[4px_4px_0px_0px_var(--color-science-dark)]';
               
               if (isCompleted && !isLocked) {
-                cardBorderClass = 'border-black';
-                shadowClass = 'shadow-[4px_4px_0px_0px_#10B981]'; // Brutalist emerald shadow for completed
+                cardBorderClass = 'border-science-dark';
+                shadowClass = 'shadow-[4px_4px_0px_0px_var(--color-science-base)]'; // Brutalist emerald shadow for completed
               } else if (isLocked) {
                 cardBorderClass = 'border-neutral-200 opacity-60 bg-neutral-50/50';
                 cursorClass = 'cursor-not-allowed select-none';
@@ -311,8 +311,8 @@ export default function HomePage() {
                         isLocked
                           ? 'border-neutral-300 bg-neutral-100 text-neutral-400'
                           : isCompleted
-                            ? 'bg-emerald-50 text-emerald-600 border-emerald-300 border'
-                            : 'border-black bg-[#FAFAFA] group-hover:bg-black group-hover:text-white'
+                            ? 'bg-science-light text-science-base border-science-base border'
+                            : 'border-science-dark bg-white group-hover:bg-science-base group-hover:border-science-base group-hover:text-white'
                       }`}>
                         <CardIcon className="w-5 h-5 text-current" />
                       </div>
@@ -320,10 +320,10 @@ export default function HomePage() {
 
                     {/* Middle: Content */}
                     <div className="space-y-1">
-                      <h3 className={`font-sans font-extrabold text-sm uppercase tracking-wider ${isLocked ? 'text-neutral-500' : 'text-black'}`}>
+                      <h3 className={`font-sans font-extrabold text-sm uppercase tracking-wider ${isLocked ? 'text-neutral-500' : 'text-science-dark'}`}>
                         {item.name}
                       </h3>
-                      <span className="font-mono text-[9px] text-neutral-400 block uppercase tracking-wider">
+                      <span className="font-mono text-[9px] text-science-dark/50 block uppercase tracking-wider">
                         {item.subtitle}
                       </span>
                       <p className={`text-xs leading-relaxed pt-2 ${isLocked ? 'text-neutral-400' : 'text-[#555555]'}`}>
@@ -333,12 +333,12 @@ export default function HomePage() {
                   </div>
 
                   {/* Bottom: Action CTA */}
-                  <div className="mt-6 pt-3 border-t border-[#EDEDED] flex items-center justify-between group-hover:border-[#D9D9D9] transition-all">
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-[#AAAAAA] group-hover:text-black font-bold transition-colors">
+                  <div className="mt-6 pt-3 border-t border-science-dark/10 flex items-center justify-between group-hover:border-science-dark/30 transition-all">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-science-dark/40 group-hover:text-science-dark font-bold transition-colors">
                       {isLocked ? '🔒 Hoạt động bị khóa' : (isCompleted ? 'Xem lại bài học' : 'Bắt đầu học tập')}
                     </span>
                     {!isLocked && (
-                      <ArrowRight className="w-3.5 h-3.5 text-[#CCCCCC] group-hover:text-black transition-all group-hover:translate-x-1" />
+                      <ArrowRight className="w-3.5 h-3.5 text-science-dark/30 group-hover:text-science-dark transition-all group-hover:translate-x-1" />
                     )}
                   </div>
                 </motion.div>
@@ -351,8 +351,8 @@ export default function HomePage() {
       </main>
 
       {/* ── Compact Footer ── */}
-      <footer className="shrink-0 border-t border-[#E5E5E5] bg-white z-10 mt-12">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between text-[10px] text-[#999999]">
+      <footer className="shrink-0 border-t border-science-dark/20 bg-white z-10 mt-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between text-[10px] text-science-dark/60">
           <span>© {new Date().getFullYear()} Nhóm 4 thực hành • Ha Noi University of Science and Technology</span>
           <span className="hidden sm:inline font-mono uppercase tracking-widest text-[9px]">
             Learning by Doing — Học qua trải nghiệm

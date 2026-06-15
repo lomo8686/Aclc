@@ -64,7 +64,7 @@ export default function Gateway() {
       });
       const data = await res.json();
       if (data.success) {
-        sessionStorage.setItem('lactic_role', 'student');
+        // Auth role is stored in JWT cookie (set by server) — no sessionStorage needed
         router.push('/home');
       } else {
         setStudentError(data.error || 'Lỗi đăng nhập');
@@ -95,7 +95,7 @@ export default function Gateway() {
       });
       const data = await res.json();
       if (data.success) {
-        sessionStorage.setItem('lactic_role', 'teacher');
+        // Auth role is stored in JWT cookie (set by server) — no sessionStorage needed
         router.push('/home');
       } else {
         setError(data.error || 'Mã PIN không đúng.');
@@ -110,15 +110,15 @@ export default function Gateway() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-[#FAFAFA] font-sans text-[#111111] antialiased selection:bg-black selection:text-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-science-bg font-sans text-science-dark antialiased selection:bg-science-accent selection:text-science-dark overflow-hidden">
 
       {/* ── Top Bar ── */}
-      <header className="shrink-0 border-b-2 border-black bg-white z-10">
+      <header className="shrink-0 border-b-2 border-science-dark bg-white z-10">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <span className="font-display font-bold text-lg tracking-tighter text-black">
+          <span className="font-display font-bold text-lg tracking-tighter text-science-dark">
             SCIENCE.05
           </span>
-          <span className="font-mono text-[9px] px-3 py-1 border-2 border-black font-bold tracking-widest bg-white uppercase">
+          <span className="font-mono text-[9px] px-3 py-1 border-2 border-science-dark font-bold tracking-widest bg-white uppercase">
             CHỌN VAI TRÒ
           </span>
         </div>
@@ -132,17 +132,17 @@ export default function Gateway() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-black"
+          className="relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-science-dark"
         >
           {/* Giant watermark number */}
-          <span className="absolute top-4 left-6 font-mono text-[120px] sm:text-[160px] font-black text-black/[0.03] leading-none select-none pointer-events-none">
+          <span className="absolute top-4 left-6 font-mono text-[120px] sm:text-[160px] font-black text-science-dark/[0.03] leading-none select-none pointer-events-none">
             01
           </span>
 
           <div className="relative z-10 flex flex-col items-center text-center space-y-6 w-full max-w-sm">
             {/* Icon */}
-            <div className="p-5 border-2 border-black bg-[#FAFAFA]">
-              <GraduationCap className="w-10 h-10 sm:w-12 sm:h-12 text-[#111111]" />
+            <div className="p-5 border-2 border-science-dark bg-science-bg">
+              <GraduationCap className="w-10 h-10 sm:w-12 sm:h-12 text-science-dark" />
             </div>
 
             {/* Label */}
@@ -167,9 +167,9 @@ export default function Gateway() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-black bg-black text-white
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-science-dark bg-science-base text-white
                              text-[11px] font-mono font-bold uppercase tracking-widest
-                             hover:bg-neutral-800 transition-all duration-300 cursor-pointer"
+                             hover:bg-science-dark transition-all duration-300 cursor-pointer shadow-[4px_4px_0px_0px_var(--color-science-dark)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
                 >
                   <span>Bắt đầu học</span>
                   <ArrowRight className="w-4 h-4" />
@@ -196,9 +196,9 @@ export default function Gateway() {
                       }}
                       placeholder="Nhập họ và tên của em"
                       className={`w-full px-4 py-3 border-2 bg-white font-mono text-center
-                                  placeholder:text-[#CCCCCC]
-                                  focus:outline-none focus:border-black transition-colors
-                                  ${studentError ? 'border-[#B00020]' : 'border-black'}`}
+                                  placeholder:text-science-dark/40
+                                  focus:outline-none focus:border-science-dark transition-colors
+                                  ${studentError ? 'border-red-500' : 'border-science-dark'}`}
                       autoComplete="off"
                     />
                   </div>
@@ -227,19 +227,19 @@ export default function Gateway() {
                         setStudentName('');
                         setStudentError('');
                       }}
-                      className="flex-1 px-4 py-2.5 border-2 border-[#D9D9D9] bg-white
-                                 text-[10px] font-mono font-bold uppercase tracking-widest text-[#666666]
-                                 hover:border-black hover:text-black transition-all cursor-pointer"
+                      className="flex-1 px-4 py-2.5 border-2 border-science-dark/20 bg-white
+                                 text-[10px] font-mono font-bold uppercase tracking-widest text-science-dark/60
+                                 hover:border-science-dark hover:text-science-dark transition-all cursor-pointer"
                     >
                       Huỷ
                     </button>
                     <button
                       type="submit"
                       disabled={studentLoading}
-                      className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 border-2 border-black bg-black text-white
+                      className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 border-2 border-science-dark bg-science-base text-white
                                  text-[10px] font-mono font-bold uppercase tracking-widest
-                                 hover:bg-neutral-800 transition-all cursor-pointer
-                                 disabled:opacity-60 disabled:cursor-not-allowed"
+                                 hover:bg-science-dark transition-all cursor-pointer
+                                 disabled:opacity-60 disabled:cursor-not-allowed shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
                     >
                       {studentLoading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -262,17 +262,17 @@ export default function Gateway() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-[#FAFAFA]"
+          className="relative flex flex-col items-center justify-center p-8 sm:p-12 lg:p-16 bg-science-light"
         >
           {/* Giant watermark number */}
-          <span className="absolute top-4 right-6 font-mono text-[120px] sm:text-[160px] font-black text-black/[0.03] leading-none select-none pointer-events-none">
+          <span className="absolute top-4 right-6 font-mono text-[120px] sm:text-[160px] font-black text-science-dark/[0.03] leading-none select-none pointer-events-none">
             02
           </span>
 
           <div className="relative z-10 flex flex-col items-center text-center space-y-6 w-full max-w-sm">
             {/* Icon */}
-            <div className="p-5 border-2 border-black bg-white">
-              <ShieldCheck className="w-10 h-10 sm:w-12 sm:h-12 text-[#111111]" />
+            <div className="p-5 border-2 border-science-dark bg-white">
+              <ShieldCheck className="w-10 h-10 sm:w-12 sm:h-12 text-science-dark" />
             </div>
 
             {/* Label */}
@@ -297,9 +297,9 @@ export default function Gateway() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-black bg-white text-black
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 border-2 border-science-dark bg-white text-science-dark
                              text-[11px] font-mono font-bold uppercase tracking-widest
-                             hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
+                             hover:bg-science-accent transition-all duration-300 cursor-pointer shadow-[4px_4px_0px_0px_var(--color-science-dark)] hover:shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:translate-x-[2px] hover:translate-y-[2px]"
                 >
                   <KeyRound className="w-4 h-4" />
                   <span>Nhập mã PIN</span>
@@ -327,9 +327,9 @@ export default function Gateway() {
                       placeholder="• • • •"
                       maxLength={10}
                       className={`w-full px-4 py-3 border-2 bg-white font-mono text-center text-lg tracking-[0.5em]
-                                  placeholder:text-[#CCCCCC] placeholder:tracking-[0.5em]
-                                  focus:outline-none focus:border-black transition-colors
-                                  ${error ? 'border-[#B00020]' : 'border-black'}`}
+                                  placeholder:text-science-dark/40 placeholder:tracking-[0.5em]
+                                  focus:outline-none focus:border-science-dark transition-colors
+                                  ${error ? 'border-red-500' : 'border-science-dark'}`}
                       autoComplete="off"
                     />
                   </div>
@@ -358,19 +358,19 @@ export default function Gateway() {
                         setPin('');
                         setError('');
                       }}
-                      className="flex-1 px-4 py-2.5 border-2 border-[#D9D9D9] bg-white
-                                 text-[10px] font-mono font-bold uppercase tracking-widest text-[#666666]
-                                 hover:border-black hover:text-black transition-all cursor-pointer"
+                      className="flex-1 px-4 py-2.5 border-2 border-science-dark/20 bg-white
+                                 text-[10px] font-mono font-bold uppercase tracking-widest text-science-dark/60
+                                 hover:border-science-dark hover:text-science-dark transition-all cursor-pointer"
                     >
                       Huỷ
                     </button>
                     <button
                       type="submit"
                       disabled={loading}
-                      className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 border-2 border-black bg-black text-white
+                      className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 border-2 border-science-dark bg-science-base text-white
                                  text-[10px] font-mono font-bold uppercase tracking-widest
-                                 hover:bg-neutral-800 transition-all cursor-pointer
-                                 disabled:opacity-60 disabled:cursor-not-allowed"
+                                 hover:bg-science-dark transition-all cursor-pointer
+                                 disabled:opacity-60 disabled:cursor-not-allowed shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5"
                     >
                       {loading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -390,8 +390,8 @@ export default function Gateway() {
       </main>
 
       {/* ── Bottom Bar ── */}
-      <footer className="shrink-0 border-t-2 border-black bg-white">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between text-[10px] text-[#999999]">
+      <footer className="shrink-0 border-t-2 border-science-dark bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between text-[10px] text-science-dark/60">
           <span>© {new Date().getFullYear()} Nhóm 4 thực hành • Ha Noi University of Science and Technology</span>
           <span className="hidden sm:inline font-mono uppercase tracking-widest text-[9px]">
             Hệ thống quản lý học tập EdTech

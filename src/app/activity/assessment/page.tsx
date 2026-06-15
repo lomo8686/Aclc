@@ -67,35 +67,35 @@ function Accordion({
 }) {
   return (
     <article
-      className="bg-white border-2 border-black overflow-hidden"
-      style={{ boxShadow: '6px 6px 0px 0px #000000' }}
+      className="bg-white border-2 border-science-dark overflow-hidden"
+      style={{ boxShadow: '6px 6px 0px 0px var(--color-science-dark)' }}
     >
       {/* Header — clickable */}
       <button
         onClick={onToggle}
         className="w-full flex items-start gap-4 p-6 sm:p-8 text-left cursor-pointer
-                   hover:bg-[#FAFAFA] transition-colors focus:outline-none group"
+                   hover:bg-science-bg transition-colors focus:outline-none group"
         aria-expanded={isOpen}
       >
         {/* Icon badge */}
-        <div className="p-2.5 bg-black text-white shrink-0 mt-0.5">
+        <div className="p-2.5 bg-science-base text-white shrink-0 mt-0.5">
           {item.icon}
         </div>
 
         {/* Question text */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-display font-bold text-lg sm:text-xl lg:text-2xl tracking-tight leading-snug text-[#111111]">
+          <h3 className="font-display font-bold text-lg sm:text-xl lg:text-2xl tracking-tight leading-snug text-science-dark">
             {item.question}
           </h3>
-          <p className="mt-2 text-sm text-[#666666] leading-relaxed">
+          <p className="mt-2 text-sm text-science-dark/70 leading-relaxed">
             {item.context}
           </p>
         </div>
 
         {/* Chevron */}
         <div
-          className={`shrink-0 p-2 border-2 border-black transition-transform duration-300 ${
-            isOpen ? 'rotate-180 bg-black text-white' : 'bg-white text-black'
+          className={`shrink-0 p-2 border-2 border-science-dark transition-transform duration-300 ${
+            isOpen ? 'rotate-180 bg-science-base text-white' : 'bg-white text-science-dark'
           }`}
         >
           <ChevronDown className="w-4 h-4" />
@@ -112,22 +112,22 @@ function Accordion({
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <div className="border-t-2 border-black px-6 sm:px-8 py-6 space-y-5">
+            <div className="border-t-2 border-science-dark px-6 sm:px-8 py-6 space-y-5">
               {/* Hints section */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Lightbulb className="w-4 h-4 text-amber-500" />
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#888888]">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-science-dark/60">
                     Gợi ý suy luận
                   </span>
                 </div>
                 <ul className="space-y-2.5 ml-1">
                   {item.hints.map((hint, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <span className="flex items-center justify-center w-5 h-5 shrink-0 border-2 border-black bg-[#FFF8E1] font-mono text-[9px] font-black mt-0.5">
+                      <span className="flex items-center justify-center w-5 h-5 shrink-0 border-2 border-science-dark bg-[#FFF8E1] font-mono text-[9px] font-black mt-0.5">
                         {idx + 1}
                       </span>
-                      <p className="text-sm text-[#444444] leading-relaxed">
+                      <p className="text-sm text-science-dark/70 leading-relaxed">
                         {hint}
                       </p>
                     </li>
@@ -137,8 +137,8 @@ function Accordion({
 
               {/* Answer reveal */}
               <div
-                className="p-5 bg-[#E8F5E9] border-2 border-black"
-                style={{ boxShadow: '3px 3px 0px 0px #000000' }}
+                className="p-5 bg-[#E8F5E9] border-2 border-science-dark"
+                style={{ boxShadow: '3px 3px 0px 0px var(--color-science-dark)' }}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <BookOpenCheck className="w-4 h-4 text-emerald-700" />
@@ -210,7 +210,7 @@ export default function Assessment() {
   };
 
   return (
-    <section className="py-12 md:py-20 px-5 sm:px-8 lg:px-12 bg-[#FAFAFA]">
+    <section className="py-12 md:py-20 px-5 sm:px-8 lg:px-12 bg-science-bg">
       <div className="max-w-6xl mx-auto space-y-20">
 
         {/* ═══════ PART 1 — Vận dụng: Câu hỏi tình huống ═══════ */}
@@ -221,7 +221,7 @@ export default function Assessment() {
             sub="Câu hỏi tình huống thực tế"
           />
 
-          <p className="mt-4 mb-8 text-sm md:text-base text-[#555555] leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)] max-w-3xl">
+          <p className="mt-4 mb-8 text-sm md:text-base text-science-dark/80 leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)] max-w-3xl">
             Bấm vào mỗi câu hỏi để mở gợi ý suy luận và đáp án tham khảo.
             Hãy thử suy nghĩ trước khi xem đáp án nhé!
           </p>
@@ -246,18 +246,18 @@ export default function Assessment() {
             sub="Wayground Interactive Quiz"
           />
 
-          <p className="mt-4 mb-8 text-sm md:text-base text-[#555555] leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)] max-w-3xl">
+          <p className="mt-4 mb-8 text-sm md:text-base text-science-dark/80 leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)] max-w-3xl">
             Thi đua trực tuyến cùng cả lớp trên nền tảng Wayground! Bấm nút "Toàn màn hình" để có trải nghiệm tốt nhất trên iPad hoặc màn hình máy chiếu.
           </p>
 
           {/* Wayground container */}
           <div
             ref={gameContainerRef}
-            className="relative bg-white border-2 border-black overflow-hidden"
-            style={{ boxShadow: '6px 6px 0px 0px #000000' }}
+            className="relative bg-white border-2 border-science-dark overflow-hidden"
+            style={{ boxShadow: '6px 6px 0px 0px var(--color-science-dark)' }}
           >
             {/* Editable URL / Teacher controls */}
-            <div className="bg-[#FFF8E1] border-b-2 border-black px-5 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="bg-[#FFF8E1] border-b-2 border-science-dark px-5 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
                 {isEditingUrl ? (
                   <div className="flex items-center gap-2">
@@ -266,11 +266,11 @@ export default function Assessment() {
                       value={tempUrl}
                       onChange={(e) => setTempUrl(e.target.value)}
                       placeholder="Nhập link nhúng (vd: https://quizizz.com/join)"
-                      className="flex-1 text-xs px-3 py-1.5 border-2 border-black focus:outline-none"
+                      className="flex-1 text-xs px-3 py-1.5 border-2 border-science-dark focus:outline-none"
                     />
                     <button
                       onClick={handleSaveUrl}
-                      className="px-3 py-1.5 bg-black text-white text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-black hover:bg-neutral-800"
+                      className="px-3 py-1.5 bg-science-base text-white text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-science-dark hover:bg-neutral-800"
                     >
                       Lưu
                     </button>
@@ -279,19 +279,19 @@ export default function Assessment() {
                         setTempUrl(embedUrl);
                         setIsEditingUrl(false);
                       }}
-                      className="px-3 py-1.5 bg-white text-black text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-black hover:bg-neutral-100"
+                      className="px-3 py-1.5 bg-white text-science-dark text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-science-dark hover:bg-neutral-100"
                     >
                       Hủy
                     </button>
                   </div>
                 ) : (
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-[10px] font-bold text-black uppercase tracking-widest truncate">
+                    <span className="font-mono text-[10px] font-bold text-science-dark uppercase tracking-widest truncate">
                       URL: {embedUrl}
                     </span>
                     <button
                       onClick={() => setIsEditingUrl(true)}
-                      className="shrink-0 px-2.5 py-1 bg-white border border-black text-[9px] font-mono font-bold uppercase tracking-widest hover:bg-neutral-100"
+                      className="shrink-0 px-2.5 py-1 bg-white border border-science-dark text-[9px] font-mono font-bold uppercase tracking-widest hover:bg-neutral-100"
                     >
                       Sửa Link
                     </button>
@@ -301,7 +301,7 @@ export default function Assessment() {
             </div>
 
             {/* Top bar */}
-            <div className="bg-black text-white px-5 sm:px-6 py-3 flex items-center justify-between z-10 relative">
+            <div className="bg-science-base text-white px-5 sm:px-6 py-3 flex items-center justify-between z-10 relative">
               <div className="flex items-center gap-2.5">
                 <Gamepad2 className="w-4 h-4" />
                 <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest truncate">
@@ -413,8 +413,8 @@ export default function Assessment() {
             </div>
 
             {/* Bottom info strip */}
-            <div className="border-t-2 border-black bg-white px-5 sm:px-6 py-3 flex items-center justify-between">
-              <span className="font-mono text-[10px] font-bold text-[#888888] uppercase tracking-widest truncate">
+            <div className="border-t-2 border-science-dark bg-white px-5 sm:px-6 py-3 flex items-center justify-between">
+              <span className="font-mono text-[10px] font-bold text-science-dark/60 uppercase tracking-widest truncate">
                 Truy cập link trên điện thoại hoặc nhập mã PIN để tham gia
               </span>
               <span className="font-mono text-[10px] text-[#CCCCCC] hidden sm:inline">
@@ -442,14 +442,14 @@ function SectionLabel({
 }) {
   return (
     <header className="flex items-start gap-4">
-      <span className="font-mono text-6xl md:text-7xl font-black text-black/[0.06] leading-none select-none shrink-0">
+      <span className="font-mono text-6xl md:text-7xl font-black text-science-dark/[0.06] leading-none select-none shrink-0">
         {num}
       </span>
       <div>
-        <span className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888888] mb-1">
+        <span className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-science-dark/60 mb-1">
           {sub}
         </span>
-        <h2 className="font-display font-bold text-2xl md:text-3xl text-[#111111] tracking-tight leading-tight uppercase">
+        <h2 className="font-display font-bold text-2xl md:text-3xl text-science-dark tracking-tight leading-tight uppercase">
           {label}
         </h2>
       </div>

@@ -22,8 +22,18 @@ export default function ActivityLayout({
   const [isTeacher, setIsTeacher] = useState(false);
 
   useEffect(() => {
-    setIsTeacher(sessionStorage.getItem('lactic_role') === 'teacher');
-  }, []);
+    fetch('/api/auth/me')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated) {
+          setIsTeacher(data.user.role === 'teacher');
+        } else {
+          // Not authenticated — redirect to login
+          router.push('/');
+        }
+      })
+      .catch(() => router.push('/'));
+  }, [router]);
 
   const currentIndex = STEPS.findIndex((step) => step.path === pathname);
 
@@ -44,7 +54,7 @@ export default function ActivityLayout({
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans text-[#111111] antialiased selection:bg-black selection:text-white relative flex flex-col pb-20">
+    <div className="min-h-screen bg-science-bg font-sans text-science-dark antialiased selection:bg-science-accent selection:text-science-dark relative flex flex-col pb-20">
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-h-0 relative">
         {children}
@@ -57,7 +67,7 @@ export default function ActivityLayout({
           {/* Left: Home */}
           <button
             onClick={() => router.push('/home')}
-            className="flex items-center gap-2 px-4 py-3 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-black font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest"
+            className="flex items-center gap-2 px-4 py-3 bg-white border-2 border-science-dark shadow-[4px_4px_0px_0px_var(--color-science-dark)] hover:shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-science-dark font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest"
           >
             <Home className="w-4 h-4" />
             <span className="hidden sm:inline">Về trang chủ</span>
@@ -68,7 +78,7 @@ export default function ActivityLayout({
             {prevStep && (
               <button
                 onClick={() => router.push(prevStep.path)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-3 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-black font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest"
+                className="flex items-center gap-2 px-3 sm:px-4 py-3 bg-white border-2 border-science-dark shadow-[4px_4px_0px_0px_var(--color-science-dark)] hover:shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-science-dark font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="hidden sm:inline">Quay lại</span>
@@ -78,7 +88,7 @@ export default function ActivityLayout({
             {nextStep && (
               <button
                 onClick={handleNext}
-                className="flex items-center gap-2 px-4 sm:px-6 py-3 bg-black border-2 border-black shadow-[4px_4px_0px_0px_#10B981] hover:shadow-[2px_2px_0px_0px_#10B981] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-white font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest group"
+                className="flex items-center gap-2 px-4 sm:px-6 py-3 bg-science-base border-2 border-science-dark shadow-[4px_4px_0px_0px_var(--color-science-dark)] hover:shadow-[2px_2px_0px_0px_var(--color-science-dark)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 cursor-pointer text-white font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest group"
               >
                 <span className="hidden sm:inline">Tiếp: {nextStep.label}</span>
                 <span className="sm:hidden">Tiếp theo</span>

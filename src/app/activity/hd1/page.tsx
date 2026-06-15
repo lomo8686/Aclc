@@ -123,28 +123,28 @@ export default function ActivityOne() {
   return (
     <section
       id="hd1"
-      className="py-12 md:py-20 px-5 sm:px-8 lg:px-12 bg-[#FAFAFA]"
+      className="py-12 md:py-20 px-5 sm:px-8 lg:px-12 bg-science-bg"
     >
       <div className="max-w-6xl mx-auto">
         {/* ─── Header ─── */}
         <header className="mb-14">
           <div className="flex items-start gap-4 mb-3">
-            <span className="font-mono text-6xl md:text-7xl font-black text-black/[0.06] leading-none select-none shrink-0">
+            <span className="font-mono text-6xl md:text-7xl font-black text-science-dark/[0.06] leading-none select-none shrink-0">
               01
             </span>
             <div>
-              <span className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-[#888888] mb-1">
+              <span className="inline-block font-mono text-[10px] uppercase tracking-[0.2em] text-science-dark/60 mb-1">
                 Kolb — Concrete Experience · Bước tại nhà
               </span>
-              <h2 className="font-display font-bold text-2xl md:text-4xl text-[#111111] tracking-tight leading-tight">
+              <h2 className="font-display font-bold text-2xl md:text-4xl text-science-dark tracking-tight leading-tight">
                 Tự tay làm sữa chua{' '}
-                <span className="underline decoration-2 decoration-black underline-offset-4">
+                <span className="underline decoration-2 decoration-science-base underline-offset-4">
                   ngon lành
                 </span>
               </h2>
             </div>
           </div>
-          <p className="text-sm md:text-base text-[#555555] max-w-3xl leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)]">
+          <p className="text-sm md:text-base text-science-dark/80 max-w-3xl leading-relaxed ml-0 md:ml-[calc(theme(spacing.4)+4rem)]">
             Tại nhà, em hãy xem video hướng dẫn chi tiết, tự tay thực hiện mẻ
             sữa chua đầu tiên dưới sự hỗ trợ của bố mẹ, sau đó điền nhật ký
             quan sát khoa học để ghi lại kết quả thí nghiệm.
@@ -157,8 +157,8 @@ export default function ActivityOne() {
           <div className="space-y-8">
             {/* Video Card — Brutalist shadow */}
             <div
-              className={`bg-white border-2 border-black overflow-hidden transition-all duration-300 ${
-                isFullscreen ? 'fixed inset-4 z-[100] shadow-[12px_12px_0px_0px_#000000] flex flex-col' : ''
+              className={`bg-white border-2 border-science-dark overflow-hidden transition-all duration-300 ${
+                isFullscreen ? 'fixed inset-4 z-[100] shadow-[12px_12px_0px_0px_var(--color-science-dark)] flex flex-col' : ''
               }`}
               style={{
                 boxShadow: isFullscreen ? '12px 12px 0px 0px #000000' : '6px 6px 0px 0px #000000',
@@ -167,13 +167,13 @@ export default function ActivityOne() {
               {/* Overlay backdrop when fullscreen */}
               {isFullscreen && (
                 <div
-                  className="fixed inset-0 bg-black/60 backdrop-blur-sm -z-10"
+                  className="fixed inset-0 bg-science-base/60 backdrop-blur-sm -z-10"
                   onClick={() => setIsFullscreen(false)}
                 />
               )}
 
               {/* Top bar */}
-              <div className="bg-black text-white px-5 py-3 flex items-center justify-between shrink-0">
+              <div className="bg-science-base text-white px-5 py-3 flex items-center justify-between shrink-0">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest">
                   🎬 Video hướng dẫn làm sữa chua
                 </span>
@@ -197,10 +197,10 @@ export default function ActivityOne() {
               </div>
 
               {/* Controller bar */}
-              <div className="p-4 bg-white border-t-2 border-black flex items-center justify-end shrink-0">
+              <div className="p-4 bg-white border-t-2 border-science-dark flex items-center justify-end shrink-0">
                 <button
                   onClick={() => setIsFullscreen(!isFullscreen)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest border-2 border-science-dark bg-white text-science-dark hover:bg-science-base hover:text-white transition-all cursor-pointer"
                 >
                   {isFullscreen ? (
                     <>
@@ -220,10 +220,10 @@ export default function ActivityOne() {
             {/* ── Safety Warning Button ── */}
             <button
               onClick={() => setShowSafetyModal(true)}
-              className="w-full flex items-center justify-center gap-3 px-6 py-4 border-2 border-black bg-[#FFF8E1] text-black
+              className="w-full flex items-center justify-center gap-3 px-6 py-4 border-2 border-science-dark bg-[#FFF8E1] text-science-dark
                          font-mono text-xs font-bold uppercase tracking-widest
                          hover:bg-[#FFECB3] transition-colors cursor-pointer"
-              style={{ boxShadow: '4px 4px 0px 0px #000000' }}
+              style={{ boxShadow: '4px 4px 0px 0px var(--color-science-dark)' }}
             >
               <ShieldAlert className="w-5 h-5 text-[#E65100]" />
               <span>⚠ Lưu ý an toàn khi thực hành</span>
@@ -232,11 +232,11 @@ export default function ActivityOne() {
 
           {/* ═══════ RIGHT — Science Notebook Diary Form ═══════ */}
           <div
-            className="bg-white border-2 border-black overflow-hidden"
-            style={{ boxShadow: '6px 6px 0px 0px #000000' }}
+            className="bg-white border-2 border-science-dark overflow-hidden"
+            style={{ boxShadow: '6px 6px 0px 0px var(--color-science-dark)' }}
           >
             {/* Notebook header */}
-            <div className="bg-black text-white px-6 py-4 flex items-center justify-between">
+            <div className="bg-science-base text-white px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <ClipboardList className="w-5 h-5" />
                 <span className="font-mono text-[11px] font-bold uppercase tracking-widest">
@@ -267,7 +267,7 @@ export default function ActivityOne() {
                   {/* Row 1: Name + Group */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                      <label className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                         <Pen className="w-3 h-3 text-neutral-400" />
                         Họ tên học sinh *
                       </label>
@@ -277,11 +277,11 @@ export default function ActivityOne() {
                         placeholder="Nguyễn Văn A..."
                         value={studentName}
                         onChange={(e) => setStudentName(e.target.value)}
-                        className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white focus:border-black transition-colors placeholder:text-[#CCCCCC]"
+                        className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white focus:border-science-dark transition-colors placeholder:text-[#CCCCCC]"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                      <label className="block text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                         Nhóm / Lớp *
                       </label>
                       <input
@@ -290,7 +290,7 @@ export default function ActivityOne() {
                         placeholder="Nhóm 3 — Lớp 7A1"
                         value={studentGroup}
                         onChange={(e) => setStudentGroup(e.target.value)}
-                        className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
+                        className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
                       />
                     </div>
                   </div>
@@ -298,7 +298,7 @@ export default function ActivityOne() {
                   {/* Row 2: Time + Color */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                      <label className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                         <Clock className="w-3 h-3 text-neutral-400" />
                         Giờ bắt đầu ủ *
                       </label>
@@ -307,17 +307,17 @@ export default function ActivityOne() {
                         required
                         value={startTime}
                         onChange={(e) => setStartTime(e.target.value)}
-                        className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white transition-colors"
+                        className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                      <label className="block text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                         Màu sắc quan sát
                       </label>
                       <select
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
-                        className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white transition-colors cursor-pointer"
+                        className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white transition-colors cursor-pointer"
                       >
                         <option value="Trắng sữa">🥛 Trắng sữa mịn</option>
                         <option value="Hơi vàng nhạt">🟡 Hơi vàng ngà</option>
@@ -330,10 +330,10 @@ export default function ActivityOne() {
 
                   {/* Row 3: State (segmented control) */}
                   <div>
-                    <label className="block text-[10px] font-mono font-bold text-[#111111] mb-3 uppercase tracking-widest">
+                    <label className="block text-[10px] font-mono font-bold text-science-dark mb-3 uppercase tracking-widest">
                       Trạng thái đông đặc
                     </label>
-                    <div className="grid grid-cols-3 gap-0 border-2 border-black overflow-hidden">
+                    <div className="grid grid-cols-3 gap-0 border-2 border-science-dark overflow-hidden">
                       {[
                         { val: 'lỏng' as const, label: '💧 Còn lỏng', sub: 'Chưa đạt' },
                         { val: 'hơi_đặc' as const, label: '🥣 Hơi sệt', sub: 'Tạm được' },
@@ -344,11 +344,11 @@ export default function ActivityOne() {
                           type="button"
                           onClick={() => setState(st.val)}
                           className={`py-3 px-2 text-center transition-all cursor-pointer ${
-                            idx < 2 ? 'border-r-2 border-black' : ''
+                            idx < 2 ? 'border-r-2 border-science-dark' : ''
                           } ${
                             state === st.val
-                              ? 'bg-black text-white'
-                              : 'bg-white text-[#444444] hover:bg-[#F5F5F5]'
+                              ? 'bg-science-base text-white'
+                              : 'bg-white text-science-dark/70 hover:bg-[#F5F5F5]'
                           }`}
                         >
                           <span className="block text-sm font-bold">{st.label}</span>
@@ -364,7 +364,7 @@ export default function ActivityOne() {
 
                   {/* Row 4: Taste */}
                   <div>
-                    <label className="block text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                    <label className="block text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                       Mùi vị cảm nhận
                     </label>
                     <input
@@ -372,13 +372,13 @@ export default function ActivityOne() {
                       placeholder="Vd: Chua thanh nhẹ, hậu vị béo ngọt..."
                       value={taste}
                       onChange={(e) => setTaste(e.target.value)}
-                      className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
+                      className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
                     />
                   </div>
 
                   {/* Row 5: Notes */}
                   <div>
-                    <label className="block text-[10px] font-mono font-bold text-[#111111] mb-2 uppercase tracking-widest">
+                    <label className="block text-[10px] font-mono font-bold text-science-dark mb-2 uppercase tracking-widest">
                       Ghi chú thêm
                     </label>
                     <textarea
@@ -386,15 +386,15 @@ export default function ActivityOne() {
                       placeholder="Mô tả thêm về mẻ ủ: nhiệt độ phòng, thời gian thực tế..."
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      className="w-full text-sm px-4 py-3 border-2 border-black bg-[#FAFAFA] focus:outline-none focus:bg-white transition-colors resize-none placeholder:text-[#CCCCCC]"
+                      className="w-full text-sm px-4 py-3 border-2 border-science-dark bg-science-bg focus:outline-none focus:bg-white transition-colors resize-none placeholder:text-[#CCCCCC]"
                     />
                   </div>
 
                   {/* Submit */}
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2.5 py-3.5 bg-black text-white text-[11px] font-mono font-bold uppercase tracking-widest
-                               border-2 border-black hover:bg-neutral-800 transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2.5 py-3.5 bg-science-base text-white text-[11px] font-mono font-bold uppercase tracking-widest
+                               border-2 border-science-dark hover:bg-neutral-800 transition-colors cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Gửi nhật ký thực hành</span>
@@ -408,9 +408,9 @@ export default function ActivityOne() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="mt-4 p-4 bg-[#F5F5F5] border-2 border-black text-black text-xs font-mono font-bold flex items-start gap-2.5"
+                      className="mt-4 p-4 bg-[#F5F5F5] border-2 border-science-dark text-science-dark text-xs font-mono font-bold flex items-start gap-2.5"
                     >
-                      <CheckCircle className="w-4 h-4 shrink-0 text-black mt-0.5" />
+                      <CheckCircle className="w-4 h-4 shrink-0 text-science-dark mt-0.5" />
                       <span className="leading-relaxed">{notificationMsg}</span>
                     </motion.div>
                   )}
@@ -422,10 +422,10 @@ export default function ActivityOne() {
 
         {/* ═══════ Submitted Diary Table ═══════ */}
         <div
-          className="mt-14 bg-white border-2 border-black overflow-hidden"
-          style={{ boxShadow: '6px 6px 0px 0px #000000' }}
+          className="mt-14 bg-white border-2 border-science-dark overflow-hidden"
+          style={{ boxShadow: '6px 6px 0px 0px var(--color-science-dark)' }}
         >
-          <div className="bg-black text-white px-6 py-3 flex items-center justify-between">
+          <div className="bg-science-base text-white px-6 py-3 flex items-center justify-between">
             <h3 className="font-mono text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
               <span className="w-2 h-2 bg-emerald-400" />
               Nhật ký thực hành của cả lớp
@@ -438,7 +438,7 @@ export default function ActivityOne() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b-2 border-black bg-[#F5F5F5] text-[#111111]">
+                <tr className="border-b-2 border-science-dark bg-[#F5F5F5] text-science-dark">
                   <th className="p-4 font-mono uppercase tracking-wider font-extrabold text-[10px]">
                     Tên
                   </th>
@@ -466,27 +466,27 @@ export default function ActivityOne() {
                 {entries.map((item) => (
                   <tr
                     key={item.id}
-                    className="hover:bg-[#FAFAFA] transition-colors"
+                    className="hover:bg-science-bg transition-colors"
                   >
-                    <td className="p-4 font-mono font-bold text-black">
+                    <td className="p-4 font-mono font-bold text-science-dark">
                       {item.studentName}
                     </td>
-                    <td className="p-4 text-[#555555] font-medium">
+                    <td className="p-4 text-science-dark/80 font-medium">
                       {item.studentGroup}
                     </td>
-                    <td className="p-4 text-[#555555] text-center font-mono">
+                    <td className="p-4 text-science-dark/80 text-center font-mono">
                       {item.startTime}
                     </td>
-                    <td className="p-4 text-[#555555] font-medium">
+                    <td className="p-4 text-science-dark/80 font-medium">
                       {item.color}
                     </td>
                     <td className="p-4 text-center">
                       <span
                         className={`inline-block px-2.5 py-1 text-[9px] font-mono font-bold uppercase tracking-wider border-2 ${
                           item.state === 'đặc'
-                            ? 'bg-black text-white border-black'
+                            ? 'bg-science-base text-white border-science-dark'
                             : item.state === 'hơi_đặc'
-                              ? 'bg-[#F5F5F5] text-black border-black'
+                              ? 'bg-[#F5F5F5] text-science-dark border-science-dark'
                               : 'bg-white text-red-600 border-red-600'
                         }`}
                       >
@@ -497,7 +497,7 @@ export default function ActivityOne() {
                             : 'Lỏng 💧'}
                       </span>
                     </td>
-                    <td className="p-4 text-[#555555] font-medium">
+                    <td className="p-4 text-science-dark/80 font-medium">
                       {item.taste}
                     </td>
                     <td className="p-4 text-xs text-neutral-500 max-w-sm font-medium italic">
@@ -522,7 +522,7 @@ export default function ActivityOne() {
           >
             {/* Backdrop */}
             <div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-science-base/60 backdrop-blur-sm"
               onClick={() => setShowSafetyModal(false)}
             />
 
@@ -532,22 +532,22 @@ export default function ActivityOne() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="relative w-full max-w-lg bg-[#FFF8E1] border-2 border-black z-10"
-              style={{ boxShadow: '8px 8px 0px 0px #000000' }}
+              className="relative w-full max-w-lg bg-[#FFF8E1] border-2 border-science-dark z-10"
+              style={{ boxShadow: '8px 8px 0px 0px var(--color-science-dark)' }}
             >
               {/* Modal header */}
-              <div className="bg-[#FFC107] border-b-2 border-black px-6 py-4 flex items-center justify-between">
+              <div className="bg-[#FFC107] border-b-2 border-science-dark px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <AlertTriangle className="w-5 h-5 text-black" />
-                  <span className="font-mono text-xs font-bold uppercase tracking-widest text-black">
+                  <AlertTriangle className="w-5 h-5 text-science-dark" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-widest text-science-dark">
                     Cảnh báo an toàn
                   </span>
                 </div>
                 <button
                   onClick={() => setShowSafetyModal(false)}
-                  className="p-1 hover:bg-black/10 transition-colors cursor-pointer"
+                  className="p-1 hover:bg-science-base/10 transition-colors cursor-pointer"
                 >
-                  <X className="w-5 h-5 text-black" />
+                  <X className="w-5 h-5 text-science-dark" />
                 </button>
               </div>
 
@@ -557,7 +557,7 @@ export default function ActivityOne() {
                   <div className="p-2 bg-[#E65100] text-white shrink-0 mt-0.5">
                     <AlertTriangle className="w-5 h-5" />
                   </div>
-                  <div className="space-y-2 text-sm text-black leading-relaxed">
+                  <div className="space-y-2 text-sm text-science-dark leading-relaxed">
                     <p className="font-bold">
                       🔥 Sử dụng nước nóng — Bắt buộc có phụ huynh!
                     </p>
@@ -577,7 +577,7 @@ export default function ActivityOne() {
                   <div className="p-2 bg-[#E65100] text-white shrink-0 mt-0.5">
                     <ShieldAlert className="w-5 h-5" />
                   </div>
-                  <div className="space-y-2 text-sm text-black leading-relaxed">
+                  <div className="space-y-2 text-sm text-science-dark leading-relaxed">
                     <p className="font-bold">
                       🧫 Vệ sinh dụng cụ — Tiệt trùng hũ đựng!
                     </p>
@@ -591,7 +591,7 @@ export default function ActivityOne() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-[#FFE082] border-2 border-black text-xs font-mono text-black leading-relaxed">
+                <div className="p-4 bg-[#FFE082] border-2 border-science-dark text-xs font-mono text-science-dark leading-relaxed">
                   <strong>📋 Quy tắc vàng:</strong> Luôn rửa tay sạch bằng xà
                   phòng → Tiệt trùng dụng cụ → Có người lớn giám sát → Ghi
                   chú nhật ký khi ủ xong.
@@ -599,11 +599,11 @@ export default function ActivityOne() {
               </div>
 
               {/* Modal footer */}
-              <div className="px-6 py-4 border-t-2 border-black bg-[#FFF8E1]">
+              <div className="px-6 py-4 border-t-2 border-science-dark bg-[#FFF8E1]">
                 <button
                   onClick={() => setShowSafetyModal(false)}
-                  className="w-full py-3 bg-black text-white font-mono text-[11px] font-bold uppercase tracking-widest
-                             border-2 border-black hover:bg-neutral-800 transition-colors cursor-pointer"
+                  className="w-full py-3 bg-science-base text-white font-mono text-[11px] font-bold uppercase tracking-widest
+                             border-2 border-science-dark hover:bg-neutral-800 transition-colors cursor-pointer"
                 >
                   Tôi đã hiểu — Đóng cảnh báo
                 </button>
