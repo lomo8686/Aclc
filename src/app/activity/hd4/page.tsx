@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Pause, RotateCcw, HelpCircle, Eye, EyeOff, BookOpen, AlertCircle } from 'lucide-react';
+import { Play, Pause, RotateCcw, HelpCircle, Eye, EyeOff, BookOpen } from 'lucide-react';
 
 export default function ActivityFour() {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
@@ -76,30 +76,24 @@ export default function ActivityFour() {
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white border border-science-dark/20 rounded-none p-6 sm:p-8 space-y-6 shadow-none">
               
-              {/* Scenario Label Badge */}
-              <div className="flex items-center justify-between">
+              {/* Scenario Label Badge — score removed */}
+              <div className="flex items-center">
                 <span className="inline-flex items-center px-2.5 py-1 rounded-none bg-science-base text-white text-[9px] font-mono font-bold uppercase tracking-wider">
                   🔥 TÌNH HUỐNG THẢO LUẬN LỚP 5
                 </span>
-                <span className="text-[10px] text-science-dark/70 font-mono uppercase tracking-wider font-bold">Điểm số: +50đ</span>
               </div>
 
-              {/* The Case content */}
+              {/* The Case content — new content */}
               <div className="space-y-4">
                 <h3 className="font-sans font-bold text-lg md:text-xl text-science-dark leading-snug">
-                  "Bài toán giải cứu mẻ Sữa Chua bị quên ủ ấm lúc ban đầu" 🥛🔍
+                  Đề: &ldquo;Một bạn đã thực hiện làm sữa chua ở nhà như sau: Đun sôi sữa, cho sữa chua vào khi sữa đang sôi, ủ ở nhiệt độ khoảng từ 40 °C đến 50 °C trong 8 giờ. Sau khi ủ, sữa đã không tạo thành sữa chua.&rdquo;
                 </h3>
-                
-                <p className="text-xs text-science-dark/70 leading-relaxed">
-                  Một bạn học sinh hăm hở chuẩn bị nguyên vật liệu rất chu đáo, khuấy miền sữa ấm đều một chiều và dập hũ kín kẽ. Tuy nhiên, do vội đá bóng cùng các bạn học, bạn đã <strong>bỏ quên không rót nước nóng xung quanh</strong> và <strong>không bọc kín thùng xốp</strong> giữ ấm suốt 4 tiếng đầu tiên.
-                </p>
 
-                <div className="p-5 bg-science-bg border-2 border-science-dark rounded-none text-xs leading-relaxed text-science-dark space-y-1.5">
-                  <div className="font-mono font-bold uppercase tracking-wide">💬 Trọng tâm thảo luận nhóm:</div>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Điều hại gì sẽ xảy ra với lượng trực khuẩn mồi và tính đông tụ của hũ?</li>
-                    <li>Chúng ta có thể vận dụng mẹo nhiệt học nào để "giải cứu" mẻ sữa chua chậm phát triển đó?</li>
-                  </ul>
+                <div className="p-5 bg-science-bg border-2 border-science-dark rounded-none text-xs leading-relaxed text-science-dark space-y-3">
+                  <div className="font-mono font-bold uppercase tracking-wide">❓ CÂU HỎI:</div>
+                  <p className="leading-relaxed">
+                    Em hãy giải thích vì sao bạn làm sữa chua không thành công và đề xuất phương án để giải cứu mẻ sữa chua này
+                  </p>
                 </div>
               </div>
 
@@ -136,7 +130,7 @@ export default function ActivityFour() {
                 </button>
               </div>
 
-              {/* Animated Hints Panel */}
+              {/* Animated Hints Panel — new content */}
               <AnimatePresence>
                 {showHint && (
                   <motion.div
@@ -147,20 +141,20 @@ export default function ActivityFour() {
                   >
                     <div className="p-5 rounded-none bg-science-bg border border-science-dark text-xs space-y-2.5">
                       <h4 className="font-mono font-bold text-science-dark uppercase tracking-wider flex items-center text-[10px]">
-                        <BookOpen className="w-4 h-4 mr-1.5 text-science-dark" /> GỢI Ý TƯ DUY CHO NHÓM HỌC SINH:
+                        <BookOpen className="w-4 h-4 mr-1.5 text-science-dark" /> GỢI Ý:
                       </h4>
                       <ul className="list-none space-y-2 text-science-dark/70 text-[11px]">
                         <li className="flex items-start">
-                          <span className="text-science-dark font-mono mr-1.5 font-bold">1.</span>
-                          <span><strong>Nhiệt độ tối ưu:</strong> Hãy nghĩ về nhiệt độ ưa thích của trực khuẩn Lactic để lên men cực đại. Khoảng nhiệt độ ủ ấm 40°C - 45°C có vai trò gì?</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">-</span>
+                          <span>Bạn nhỏ đã vội vàng ở bước nào?</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-science-dark font-mono mr-1.5 font-bold">2.</span>
-                          <span><strong>Hoạt động ngủ đông:</strong> Nhiệt độ phòng bình thường lỏng lẽo sẽ làm vi sinh béo ngậy làm chậm rớt tốc độ sinh Axit Lactic ra sao?</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">-</span>
+                          <span>Vi khuẩn lactic gặp sữa đang sôi sẽ ra sao? (Nhớ lại nhiệt độ sống của chúng ở HĐ3 nhé)</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-science-dark font-mono mr-1.5 font-bold">3.</span>
-                          <span><strong>Ủ ấm bù:</strong> Nếu sưởi ấm nóng gấp lại về sau, lượng vi khuẩn có thể "bừng tỉnh" hoạt bát trở lại không?</span>
+                          <span className="text-science-dark font-mono mr-1.5 font-bold">-</span>
+                          <span>Làm sao để đưa &ldquo;đội quân&rdquo; vi khuẩn mới vào bình sữa?</span>
                         </li>
                       </ul>
                     </div>
@@ -168,7 +162,7 @@ export default function ActivityFour() {
                 )}
               </AnimatePresence>
 
-              {/* Animated Answer Panel */}
+              {/* Animated Answer Panel — new content */}
               <AnimatePresence>
                 {showAnswer && (
                   <motion.div
@@ -179,18 +173,22 @@ export default function ActivityFour() {
                   >
                     <div className="p-5 rounded-none bg-[#111111] text-white border border-science-dark text-xs space-y-3.5">
                       <h4 className="font-mono font-bold uppercase tracking-widest flex items-center text-[10px] text-white">
-                        ⚡ KẾT LUẬN TIÊU CHUẨN KHOA HỌC:
+                        ⚡ ĐÁP ÁN:
                       </h4>
-                      <p className="leading-relaxed text-[#D9D9D9] text-[11px]">
-                        Nếu lỡ quên ủ ấm lúc ban đầu khiến nhiệt độ hạ thấp ngang nhiệt độ phòng thường, <strong>vi khuẩn Lactic mầm mồi sẽ hoạt động cực kỳ yếu hoặc chuyển sang tạm thời ngủ đông</strong>. Điều này khiến quá trình đổi đường lactose thành axit Lactic bị đình trệ, sữa không dẻo đặc tự nhiên.
-                      </p>
                       <p className="leading-relaxed font-mono text-[10px] uppercase tracking-wider text-white">
-                        🛠️ PHƯƠNG PHÁP GIẢI CỨU SỮA CHUA NỮA CHỪNG:
+                        NGUYÊN NHÂN:
                       </p>
-                      <ul className="list-decimal list-inside space-y-2 bg-transparent p-4 rounded-none border border-[#444444] text-[#D9D9D9] text-[11px]">
-                        <li><strong>Thay nước ấm lập tức:</strong> Châm ngay nước mới khoảng 45°C vào đáy hũ bao quanh để đánh thức tế bào Lactic.</li>
-                        <li><strong>Cộng thêm thời gian ủ bù:</strong> Tiếp tục kiên trì bọc chăn/giữ nhiệt kín suốt 6 - 8 tiếng ròng từ lúc gia nhiệt mới.</li>
-                        <li><strong>Đóng nắp an toàn vệ sinh:</strong> Tránh mở nắp quá nhiều lần để bụi hay khuẩn dại lọt vào làm hỏng mẻ sữa hũ.</li>
+                      <ul className="list-disc list-inside space-y-2 text-[#D9D9D9] text-[11px]">
+                        <li>Cho men mồi vào khi sữa đang sôi làm chết toàn bộ vi khuẩn lactic.</li>
+                        <li>Vi khuẩn này chỉ hoạt động tốt ở nhiệt độ ấm từ 30°C đến 50°C. Không còn vi khuẩn thì sữa không thể lên men.</li>
+                      </ul>
+                      <p className="leading-relaxed font-mono text-[10px] uppercase tracking-wider text-white">
+                        GIẢI PHÁP
+                      </p>
+                      <ul className="list-none space-y-2 bg-transparent p-4 rounded-none border border-[#444444] text-[#D9D9D9] text-[11px]">
+                        <li><strong>Bước 1:</strong> Đợi bình sữa nguội xuống mức ấm nhẹ (khoảng 40°C - 45°C).</li>
+                        <li><strong>Bước 2:</strong> Khuấy thêm một hộp sữa chua mồi mới để bổ sung &ldquo;đội quân&rdquo; vi khuẩn khỏe mạnh.</li>
+                        <li><strong>Bước 3:</strong> Đổ ra hũ và ủ ấm lại từ 6 - 8 giờ. Sữa chắc chắn sẽ đông đặc mịn!</li>
                       </ul>
                     </div>
                   </motion.div>
@@ -200,8 +198,8 @@ export default function ActivityFour() {
             </div>
           </div>
 
-          {/* Right Column: Classroom Discussion Countdown Timer (5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-science-dark/20 rounded-none p-6 sm:p-8 flex flex-col justify-between space-y-8">
+          {/* Right Column: Countdown Timer only (5 cols) — Kolb box removed */}
+          <div className="lg:col-span-5 bg-white border border-science-dark/20 rounded-none p-6 sm:p-8 flex flex-col justify-center space-y-6">
             
             {/* Timer Screen Visual container */}
             <div className="space-y-4">
@@ -222,7 +220,7 @@ export default function ActivityFour() {
                   {formatTime(timeLeft)}
                 </span>
 
-                {/* Progress bar boundary */}
+                {/* Progress bar */}
                 <div className="w-full bg-[#111111] h-1 rounded-none overflow-hidden relative z-10 border border-neutral-800">
                   <div 
                     className="h-full bg-white transition-all duration-1000"
@@ -253,7 +251,7 @@ export default function ActivityFour() {
                   ) : (
                     <>
                       <Play className="w-4 h-4 text-white" />
-                      <span>BẮT ĐẦU Ủ GIỜ</span>
+                      <span>BẮT ĐẦU ĐẾM</span>
                     </>
                   )}
                 </button>
@@ -268,17 +266,6 @@ export default function ActivityFour() {
               </div>
             </div>
 
-            {/* Scientific hint summary */}
-            <div className="p-5 bg-white border border-science-dark rounded-none text-xs space-y-2.5">
-              <div className="flex items-center space-x-2 text-science-dark">
-                <AlertCircle className="w-4 h-4 text-science-dark shrink-0" />
-                <span className="font-mono font-bold text-[10px] uppercase tracking-widest">PHƯƠNG PHÁP CHỦ ĐỘNG KOLB</span>
-              </div>
-              <p className="text-[11px] text-science-dark/70 leading-relaxed font-sans">
-                Hoạt động thảo luận tranh luận tăng trưởng tối đa năng lực <strong>Vận Dụng Trực Tiếp</strong> trong đời sống. Học sinh tự lý giải, tháo gỡ điểm nóng sữa chua hỏng để biến lý thuyết khô khan thành bài học vô cùng dồi dào kinh nghiệm cá nhân lý thú!
-              </p>
-            </div>
-
           </div>
 
         </div>
@@ -287,4 +274,3 @@ export default function ActivityFour() {
     </section>
   );
 }
-
