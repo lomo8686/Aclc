@@ -3,7 +3,6 @@ import mongoose, { Document, Model } from 'mongoose';
 export interface IUser extends Document {
   name: string;
   role: 'student' | 'teacher';
-  pin?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -19,9 +18,6 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       enum: ['student', 'teacher'],
       default: 'student',
-    },
-    pin: {
-      type: String,
     },
   },
   { timestamps: true }

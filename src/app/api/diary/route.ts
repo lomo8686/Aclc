@@ -34,12 +34,17 @@ export async function POST(req: Request) {
   const user = await getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const body = await req.json();
+  const { startTime, color, state, taste, notes, studentGroup } = await req.json();
   
   const newDiary = await Diary.create({
     userId: user.userId,
     studentName: user.name,
-    ...body
+    studentGroup,
+    startTime,
+    color,
+    state,
+    taste,
+    notes
   });
 
   // Gửi email thông báo cho GV (chạy ngầm không block request)

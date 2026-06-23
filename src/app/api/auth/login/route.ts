@@ -1,10 +1,35 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { serialize } from 'cookie';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("CRITICAL: Missing JWT_SECRET environment variable");
+}
+
+// bcrypt hash of the teacher PIN (safe to store in code — bcrypt is one-way)
+const TEACHER_PIN_HASH = '$2b$10$TMjkQjx0FxbAhOvptUSE7etnbS5gexBqPCvb5hA07qqhCN2t/fY8q';
+
+// Simple in-memory rate limiter (per container)
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 mins
+const MAX_REQUESTS_PER_WINDOW = 20;
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
+  rateLimitMap.forEach((data, key) => {
+    if (data.timestamp < windowStart) rateLimitMap.delete(key);
+  });
+  const record = rateLimitMap.get(ip) || { count: 0, timestamp: now };
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) return true;
+  record.count += 1;
+  rateLimitMap.set(ip, record);
+  return false;
+}
 
 export async function POST(req: Request) {
   try {
@@ -13,17 +38,27 @@ export async function POST(req: Request) {
 
     const { pin, studentName } = body;
 
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' }, { status: 429 });
+    }
+
     let user;
 
     if (pin) {
       // Teacher Login
-      if (pin !== '1234') {
+      if (!TEACHER_PIN_HASH) {
+        return NextResponse.json({ error: 'Lỗi cấu hình server (Thiếu PIN Hash)' }, { status: 500 });
+      }
+
+      const isMatch = await bcrypt.compare(pin, TEACHER_PIN_HASH);
+      if (!isMatch) {
         return NextResponse.json({ error: 'Mã PIN không đúng' }, { status: 401 });
       }
 
       user = await User.findOne({ role: 'teacher' });
       if (!user) {
-        user = await User.create({ name: 'Teacher', role: 'teacher', pin: '1234' });
+        user = await User.create({ name: 'Teacher', role: 'teacher' });
       }
     } else if (studentName) {
       // Student Login
